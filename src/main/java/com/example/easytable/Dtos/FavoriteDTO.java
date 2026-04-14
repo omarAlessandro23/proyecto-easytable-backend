@@ -1,31 +1,22 @@
 package com.example.easytable.Dtos;
 
 public class FavoriteDTO {
-    private int idFavorite;
-    private int idUsuario;
-    private int restaurant_id;
+    private UsuarioDTO usuario;
+    private RestaurantDTO restaurant;
 
-    public int getIdFavorite() {
-        return idFavorite;
+    public UsuarioDTO getUsuario() {
+        return usuario;
     }
 
-    public void setIdFavorite(int idFavorite) {
-        this.idFavorite = idFavorite;
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public RestaurantDTO getRestaurant() {
+        return restaurant;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public int getRestaurant_id() {
-        return restaurant_id;
-    }
-
-    public void setRestaurant_id(int restaurant_id) {
-        this.restaurant_id = restaurant_id;
+    public void setRestaurant(RestaurantDTO restaurant) {
+        this.restaurant = restaurant;
     }
 }

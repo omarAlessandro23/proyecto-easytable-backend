@@ -12,6 +12,27 @@ public class Category {
     @Column(name = "nameCategory",nullable = false,length = 50)
     private String nameCategory;
 
-    @Column(name = "description",length = 255)
-    private String description;
+    public Category() {
+    }
+
+    public Category(int idCategory, String nameCategory) {
+        this.idCategory = idCategory;
+        this.nameCategory = nameCategory;
+    }
+
+    public int getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(int idCategory) {
+        this.idCategory = idCategory;
+    }
+
+    public String getNameCategory() {
+        return nameCategory;
+    }
+
+    public void setNameCategory(String nameCategory) {
+        this.nameCategory = nameCategory;
+    }
 }

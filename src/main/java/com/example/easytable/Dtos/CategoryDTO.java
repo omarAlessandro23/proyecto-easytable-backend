@@ -3,7 +3,6 @@ package com.example.easytable.Dtos;
 public class CategoryDTO {
     private int idCategory;
     private String nameCategory;
-    private String description;
 
     public int getIdCategory() {
         return idCategory;
@@ -19,13 +18,5 @@ public class CategoryDTO {
 
     public void setNameCategory(String nameCategory) {
         this.nameCategory = nameCategory;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }
