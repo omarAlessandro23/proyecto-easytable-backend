@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/Notificacion")
+@RequestMapping("/notificaciones")
 public class NotificacionController {
     @Autowired
     private INotificacionService NS;

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/Review")
+@RequestMapping("/reviews")
 
 public class ReviewController {
 
