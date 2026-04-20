@@ -11,4 +11,6 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
     List<Reservation> findByUserId(int userId);
 
     List<Reservation> findByRestaurantId(int restaurantId);
+
+    List<Reservation> findByUser_Id(int userId);
 }
