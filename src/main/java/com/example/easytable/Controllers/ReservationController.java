@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +64,32 @@ public class ReservationController {
         }
         rS.delete(id);
         return ResponseEntity.ok("Reserva eliminada correctamente.");
+    }
+
+    @GetMapping("/reservas-por-usuario")
+    public ResponseEntity<List<ReservationDTO>> getReservaxUsuario(@RequestParam Integer userId) {
+
+        List<Reservation> reservas = rS.findByUser_Id(userId);
+
+        if (reservas.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
+        }
+
+        List<ReservationDTO> dtoList = reservas.stream().map(r -> {
+            ReservationDTO dto = new ReservationDTO();
+
+            dto.setReservationId(r.getReservationId()); // ajusta si tu campo se llama distinto
+            dto.setUserId(r.getUserId());
+            dto.setRestaurantId(r.getRestaurantId());
+            dto.setTableId(r.getTableId());
+            dto.setReservationDate(r.getReservationDate().atStartOfDay());
+            dto.setStatus(r.getStatus());
+            dto.setNumberPeople(r.getNumberPeople());
+
+            return dto;
+        }).toList();
+
+        return ResponseEntity.ok(dtoList);
     }
 }
 
