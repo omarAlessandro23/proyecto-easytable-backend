@@ -3,6 +3,7 @@ package com.example.easytable.Entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name="Usuario")
@@ -29,6 +30,10 @@ public class Usuario {
     @Column(name="latitud",nullable=false)
     private Double latitud;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_usuario")
+    private List<Role> roles;
+
     public Usuario() {
     }
 
@@ -44,7 +49,13 @@ public class Usuario {
         this.longitud = longitud;
         this.latitud = latitud;
     }
+    public List<Role> getRoles() {
+        return roles;
+    }
 
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
     public int getIdUsuario() {
         return idUsuario;
     }

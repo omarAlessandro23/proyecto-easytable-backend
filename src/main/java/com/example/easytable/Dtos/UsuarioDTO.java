@@ -1,6 +1,7 @@
 package com.example.easytable.Dtos;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UsuarioDTO {
     private int idUsuario;
@@ -13,6 +14,15 @@ public class UsuarioDTO {
     private String ciudad;
     private Double longitud;
     private Double latitud;
+    private List<RoleDTO> roles;
+
+    public List<RoleDTO> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleDTO> roles) {
+        this.roles = roles;
+    }
 
     public int getIdUsuario() {
         return idUsuario;

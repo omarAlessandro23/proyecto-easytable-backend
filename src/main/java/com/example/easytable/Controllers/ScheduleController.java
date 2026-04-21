@@ -32,7 +32,7 @@ public class ScheduleController {
             throw new RuntimeException("La hora de apertura no puede ser mayor a la hora de cierre");
         }
 
-        Restaurant restaurant= rS.listId(schedule.getRestaurant());
+        Restaurant restaurant= rS.listId(schedule.getRestaurant().getId());
         schedule.setRestaurant(restaurant);
 
         sS.insert(schedule);

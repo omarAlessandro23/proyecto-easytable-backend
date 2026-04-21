@@ -69,7 +69,7 @@ public class ReservationController {
     @GetMapping("/reservas-por-usuario")
     public ResponseEntity<List<ReservationDTO>> getReservaxUsuario(@RequestParam Integer userId) {
 
-        List<Reservation> reservas = rS.findByUser_Id(userId);
+        List<Reservation> reservas = rS.findByUserId(userId);
 
         if (reservas.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());

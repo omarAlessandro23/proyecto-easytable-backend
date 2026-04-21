@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/Restaurant")
+@RequestMapping("/Restaurants")
 public class RestaurantController {
 
     @Autowired
