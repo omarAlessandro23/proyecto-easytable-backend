@@ -9,5 +9,9 @@ import java.util.List;
 
 @Repository
 public interface IRestaurantCategoryRepository extends JpaRepository<RestaurantCategoryMap, Integer> {
+    @Query("SELECT rc.category.NombreCategoria, rc.restaurant.name " +
+            "FROM RestaurantCategoryMap rc " +
+            "ORDER BY rc.category.NombreCategoria")
+    List<Object[]> restaurantxcategoria();
 
 }

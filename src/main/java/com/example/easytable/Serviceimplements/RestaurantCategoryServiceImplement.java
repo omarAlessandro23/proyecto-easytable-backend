@@ -37,4 +37,11 @@ public class RestaurantCategoryServiceImplement implements IRestaurantCategorySe
     public RestaurantCategoryMap listId(int id) {
         return rc.findById(id).get();
     }
+
+    @Override
+    public List<Object[]> restaurantxcategoria() {
+        return rc.restaurantxcategoria();
+    }
+
+
 }

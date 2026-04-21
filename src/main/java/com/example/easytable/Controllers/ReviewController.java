@@ -74,4 +74,19 @@ public class ReviewController {
             return m.map(x, ReviewDTO.class);
         }).collect(Collectors.toList());
     }
+    @GetMapping("/rating-promedio")
+    public List<ReviewDTO> getPromedioRating() {
+
+        return rS.promedioRatingPorRestaurante().stream().map(x -> {
+
+            ReviewDTO dto = new ReviewDTO();
+
+            // ⚠️ No hay review real, así que esto es adaptado
+            dto.setComment((String) x[0]); // nombre del restaurante
+            dto.setRating(((Number) x[1]).intValue()); // promedio convertido a int
+
+            return dto;
+
+        }).collect(Collectors.toList());
+    }
 }
