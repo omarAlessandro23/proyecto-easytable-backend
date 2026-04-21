@@ -1,5 +1,6 @@
 package com.example.easytable.Controllers;
 
+import com.example.easytable.Dtos.ScheduleDTO;
 import com.example.easytable.Entities.Restaurant;
 import com.example.easytable.Entities.Schedule;
 import com.example.easytable.Serviceinterfaces.IRestaurantService;
@@ -23,21 +24,31 @@ public class ScheduleController {
         return sS.list();
     }
 
-    @PostMapping
-    public void insertar(@RequestBody Schedule schedule){
-        if(schedule.getDayOfWeek()<0 || schedule.getDayOfWeek()>6){
-            throw new RuntimeException(("El dia debe ser entre 0 y 6"));
-        }
-        if (schedule.getOpenTime().isAfter(schedule.getCloseTime())) {
-            throw new RuntimeException("La hora de apertura no puede ser mayor a la hora de cierre");
+    @PostMapping("/schedules")
+    public void insertar(@RequestBody ScheduleDTO dto) {
+        if (dto.getDayOfWeek() < 0 || dto.getDayOfWeek() > 6) {
+            throw new RuntimeException("El día debe estar entre 0 y 6");
         }
 
-        Restaurant restaurant= rS.listId(schedule.getRestaurant());
+        if (dto.getOpenTime().isAfter(dto.getCloseTime())) {
+            throw new RuntimeException("La hora de apertura no puede ser mayor a la de cierre");
+        }
+
+        Restaurant restaurant = rS.listId(dto.getRestaurantId());
+
+        if (restaurant == null) {
+            throw new RuntimeException("Restaurante no encontrado");
+        }
+
+        Schedule schedule = new Schedule();
+        schedule.setScheduleId(dto.getScheduleId());
+        schedule.setDayOfWeek(dto.getDayOfWeek());
+        schedule.setOpenTime(dto.getOpenTime());
+        schedule.setCloseTime(dto.getCloseTime());
         schedule.setRestaurant(restaurant);
 
         sS.insert(schedule);
     }
-
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable("id")int id){
         sS.delete(id);

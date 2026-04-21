@@ -1,5 +1,6 @@
 package com.example.easytable.Dtos;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ReservationDTO {
@@ -8,7 +9,7 @@ public class ReservationDTO {
     private int userId;
     private int restaurantId;
     private int tableId;
-    private LocalDateTime reservationDate;
+    private LocalDate reservationDate;
     private String status;
     private int numberPeople;
 
@@ -48,14 +49,6 @@ public class ReservationDTO {
         this.tableId = tableId;
     }
 
-    public LocalDateTime getReservationDate() {
-        return reservationDate;
-    }
-
-    public void setReservationDate(LocalDateTime reservationDate) {
-        this.reservationDate = reservationDate;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -70,5 +63,13 @@ public class ReservationDTO {
 
     public void setNumberPeople(int numberPeople) {
         this.numberPeople = numberPeople;
+    }
+
+    public LocalDate getReservationDate() {
+        return reservationDate;
+    }
+
+    public void setReservationDate(LocalDate reservationDate) {
+        this.reservationDate = reservationDate;
     }
 }

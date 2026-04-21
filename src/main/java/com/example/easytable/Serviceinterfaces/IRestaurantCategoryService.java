@@ -11,4 +11,5 @@ public interface IRestaurantCategoryService {
     public void delete(int id);
     public void update(RestaurantCategoryMap rcat);
     public RestaurantCategoryMap listId(int id);
+    public List<Object[]> restaurantxcategoria();
 }

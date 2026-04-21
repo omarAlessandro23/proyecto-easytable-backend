@@ -57,7 +57,9 @@ public class ReservationServiceImplement implements IReservationService {
     }
 
     @Override
-    public List<Reservation> findByUser_Id(int userId) {
-        return rR.findByUser_Id(userId);
+    public List<Reservation> findByStatus(String status) {
+        return rR.findByStatus(status);
     }
+
+
 }
