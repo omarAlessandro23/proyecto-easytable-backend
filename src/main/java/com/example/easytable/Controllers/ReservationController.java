@@ -66,7 +66,7 @@ public class ReservationController {
         return ResponseEntity.ok("Reserva eliminada correctamente.");
     }
 
-    @GetMapping("/reservas-por-usuario")
+        @GetMapping("/reservas-por-usuario")
     public ResponseEntity<List<ReservationDTO>> getReservaxUsuario(@RequestParam Integer userId) {
 
         List<Reservation> reservas = rS.findByUserId(userId);
@@ -91,5 +91,6 @@ public class ReservationController {
 
         return ResponseEntity.ok(dtoList);
     }
+
 }
 

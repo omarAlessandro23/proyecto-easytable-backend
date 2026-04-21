@@ -55,5 +55,4 @@ public class ReservationServiceImplement implements IReservationService {
     public List<Reservation> findByRestaurantId(int restaurantId) {
         return rR.findByRestaurantId(restaurantId);
     }
-
 }

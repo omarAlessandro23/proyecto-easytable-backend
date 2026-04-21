@@ -1,5 +1,6 @@
 package com.example.easytable.Controllers;
 
+import com.example.easytable.Dtos.ScheduleDTO;
 import com.example.easytable.Entities.Restaurant;
 import com.example.easytable.Entities.Schedule;
 import com.example.easytable.Serviceinterfaces.IRestaurantService;
@@ -23,7 +24,7 @@ public class ScheduleController {
         return sS.list();
     }
 
-    @PostMapping
+    @PostMapping("/schedules")
     public void insertar(@RequestBody Schedule schedule){
         if(schedule.getDayOfWeek()<0 || schedule.getDayOfWeek()>6){
             throw new RuntimeException(("El dia debe ser entre 0 y 6"));
@@ -37,7 +38,6 @@ public class ScheduleController {
 
         sS.insert(schedule);
     }
-
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable("id")int id){
         sS.delete(id);
