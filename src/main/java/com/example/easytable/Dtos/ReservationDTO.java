@@ -49,6 +49,14 @@ public class ReservationDTO {
         this.tableId = tableId;
     }
 
+    public LocalDate getReservationDate() {
+        return reservationDate;
+    }
+
+    public void setReservationDate(LocalDate reservationDate) {
+        this.reservationDate = reservationDate;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -63,13 +71,5 @@ public class ReservationDTO {
 
     public void setNumberPeople(int numberPeople) {
         this.numberPeople = numberPeople;
-    }
-
-    public LocalDate getReservationDate() {
-        return reservationDate;
-    }
-
-    public void setReservationDate(LocalDate reservationDate) {
-        this.reservationDate = reservationDate;
     }
 }

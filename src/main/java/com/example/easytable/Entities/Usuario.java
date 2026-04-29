@@ -19,9 +19,9 @@ public class Usuario {
     private String contrasenia;
     @Column(name="horacreacion",nullable=false)
     private LocalDate horacreacion;
-    @Column(name="nombrecompleto",length=10,nullable=false)
+    @Column(name="nombrecompleto",length=30,nullable=false)
     private String nombrecompleto;
-    @Column(name="numcelular",length=9,nullable=false)
+    @Column(name="numcelular",length=20,nullable=false)
     private int numcelular;
     @Column(name="ciudad",length=50,nullable=false)
     private String ciudad;
@@ -30,8 +30,7 @@ public class Usuario {
     @Column(name="latitud",nullable=false)
     private Double latitud;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_usuario")
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Role> roles;
 
     public Usuario() {

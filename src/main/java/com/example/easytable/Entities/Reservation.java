@@ -1,5 +1,7 @@
 package com.example.easytable.Entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -22,7 +24,9 @@ public class Reservation {
     @Column(name ="table_id")
     private int tableId;
 
-    @Column(name ="reservation_date", nullable=false)
+    @JsonProperty("reservation_date") // Esto permite recibir "reservation_date" en el JSON
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(name ="reservation_date")
     private LocalDate reservationDate;
 
     @Column(nullable = false, length = 20)
