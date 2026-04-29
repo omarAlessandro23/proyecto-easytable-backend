@@ -1,9 +1,7 @@
 package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.CategoryDTO;
-import com.example.easytable.Dtos.RestaurantDTO;
 import com.example.easytable.Entities.Category;
-import com.example.easytable.Entities.Restaurant;
 import com.example.easytable.Serviceinterfaces.ICategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +13,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/Category")
 public class CategoryController {
-
     @Autowired
-    private ICategoryService  cS;
-
+    private ICategoryService CS;
 
     @GetMapping("/listar")
     public List<CategoryDTO> listar() {
-        return cS.list().stream().map(x -> {
+        return CS.list().stream().map( x -> {
             ModelMapper m = new ModelMapper();
             return m.map(x, CategoryDTO.class);
         }).collect(Collectors.toList());
@@ -34,7 +30,7 @@ public class CategoryController {
     public ResponseEntity<String> insertar(@RequestBody CategoryDTO dto) {
         ModelMapper m = new ModelMapper();
         Category c = m.map(dto, Category.class);
-        cS.insert(c);
+        CS.insert(c);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Categoria registrada correctamente.");
@@ -42,28 +38,41 @@ public class CategoryController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO dto) {
-        Category cat = cS.listId(id);
-        if (cat == null) {
+        Category ex = CS.listId(id);
+        if (ex == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe una categoria con ese ID.");
-        }
-
         ModelMapper m = new ModelMapper();
         Category c = m.map(dto, Category.class);
         c.setIdCategory(id);
-        cS.update(c);
+        CS.update(c);
 
         return ResponseEntity.ok("Categoria actualizada correctamente");
     }
 
+    @GetMapping("/buscar")
+    public ResponseEntity<?> buscarPorNombre(@RequestParam("nombre") String nombre) {
+        List<Category> lista = CS.findByNameLike(nombre);
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontraron categorías que coincidan con: " + nombre);
+        }
+        ModelMapper m = new ModelMapper();
+        List<CategoryDTO> listaDTO = lista.stream()
+                .map(x -> m.map(x, CategoryDTO.class))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(listaDTO);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
-        Category c = cS.listId(id);
-        if (c == null) {
+        Category category = CS.listId(id);
+        if (category == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe una categoria con el ID: " + id);
         }
-        cS.delete(id);
-        return ResponseEntity.ok("Categoria eliminada correctamente.");
+        CS.delete(id);
+        return ResponseEntity.ok("Categoria eliminda correctamente.");
     }
 }

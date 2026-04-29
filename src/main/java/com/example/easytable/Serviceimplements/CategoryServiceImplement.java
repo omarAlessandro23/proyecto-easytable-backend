@@ -11,29 +11,29 @@ import java.util.List;
 @Service
 public class CategoryServiceImplement implements ICategoryService {
     @Autowired
-    private ICategoryRepository cr;
+    private ICategoryRepository CR;
     @Override
-    public List<Category> list() {
-        return cr.findAll();
+    public List<Category> list() { return CR.findAll(); }
+
+    @Override
+    public void insert(Category category) { CR.save(category); }
+
+    @Override
+    public void delete(int id) { CR.deleteById(id); }
+
+    @Override
+    public void update(Category category) { CR.save(category); }
+
+    @Override
+    public Category listId(int id) { return CR.findById(id).get(); }
+
+    @Override
+    public List<Category> findByName(String name) {
+        return CR.findByNameCategory(name);
     }
 
     @Override
-    public void insert(Category category) {
-        cr.save(category);
-    }
-
-    @Override
-    public void delete(int id) {
-        cr.deleteById(id);
-    }
-
-    @Override
-    public void update(Category category) {
-        cr.save(category);
-    }
-
-    @Override
-    public Category listId(int id) {
-        return cr.findById(id).get();
+    public List<Category> findByNameLike(String name) {
+        return CR.findByNameCategoryContainingIgnoreCase(name);
     }
 }
