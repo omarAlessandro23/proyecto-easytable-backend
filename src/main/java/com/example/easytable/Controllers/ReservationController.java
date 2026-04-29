@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -82,7 +83,7 @@ public class ReservationController {
             dto.setUserId(r.getUserId());
             dto.setRestaurantId(r.getRestaurantId());
             dto.setTableId(r.getTableId());
-            dto.setReservationDate(r.getReservationDate().atStartOfDay());
+            dto.setReservationDate(LocalDate.from(r.getReservationDate().atStartOfDay()));
             dto.setStatus(r.getStatus());
             dto.setNumberPeople(r.getNumberPeople());
 

@@ -34,4 +34,15 @@ public class RestaurantServiceImplement implements IRestaurantService {
     public Restaurant listId(int id) {
         return Rr.findById(id).get();
     }
+
+
+    @Override
+    public List<Restaurant> findByTopRating(Double minRating) {
+        return Rr.findTopRatedRestaurants(minRating);
+    }
+
+    @Override
+    public List<Restaurant> findNearby(Double lat, Double lng, Double distance) {
+        return Rr.findNearbyRestaurants(lat, lng, distance);
+    }
 }

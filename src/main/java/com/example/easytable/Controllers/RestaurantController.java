@@ -63,4 +63,40 @@ public class RestaurantController {
         rS.delete(id);
         return ResponseEntity.ok("Restaurante eliminado correctamente.");
     }
+    @GetMapping("/mejoresCalificados")
+    public ResponseEntity<?> buscarTop(@RequestParam Double rating) {
+        // Validación de rango lógico
+        if (rating < 0 || rating > 5) {
+            return new ResponseEntity<>("Error: La calificación debe ser un número entre 0 y 5", HttpStatus.BAD_REQUEST);
+        }
+
+        List<Restaurant> lista = rS.findByTopRating(rating);
+
+        if (lista.isEmpty()) {
+            return new ResponseEntity<>("No hay restaurantes con una calificación mayor o igual a " + rating, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
+
+    // 3. Búsqueda por Cercanía (Geolocalización)
+    @GetMapping("/cercanos")
+    public ResponseEntity<?> buscarCercanos(@RequestParam Double lat, @RequestParam Double lng, @RequestParam Double dist) {
+        // Validar que las coordenadas sean geográficamente posibles
+        if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+            return new ResponseEntity<>("Coordenadas fuera de rango (Latitud -90 a 90, Longitud -180 a 180)", HttpStatus.BAD_REQUEST);
+        }
+
+        if (dist <= 0) {
+            return new ResponseEntity<>("La distancia de búsqueda debe ser mayor a 0 km", HttpStatus.BAD_REQUEST);
+        }
+
+        List<Restaurant> lista = rS.findNearby(lat, lng, dist);
+
+        if (lista.isEmpty()) {
+            return new ResponseEntity<>("No se encontraron restaurantes en un radio de " + dist + "km", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
 }

@@ -31,16 +31,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     FilterChain chain)
             throws ServletException, IOException {
 
-        String path = request.getRequestURI();
+        String path = request.getRequestURI().toLowerCase();
 
-        // ---------------------------
-        // RUTAS LIBRES SIN JWT
-        // ---------------------------
-        if (path.startsWith("/login") ||
-                path.startsWith("/usuarios") ||
-                path.startsWith("/operacion") ||   // 🔥 permite toda operación
-                path.startsWith("/v3/api-docs") ||
-                path.startsWith("/swagger-ui")) {
+        if (path.contains("/login") ||
+                path.contains("/usuario") ||
+                path.contains("/v3/api-docs") ||
+                path.contains("/swagger-ui")) {
 
             chain.doFilter(request, response);
             return;
