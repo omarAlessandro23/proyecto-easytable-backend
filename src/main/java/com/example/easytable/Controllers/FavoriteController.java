@@ -48,6 +48,22 @@ public class FavoriteController {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<?> listarPorUsuario(@PathVariable("idUsuario") Integer idU) {
+        List<Favorite> lista = FS.listByUser(idU);
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontraron favoritos para el usuario con ID: " + idU);
+        }
+        List<FavoriteDTO> listaDTO = lista.stream().map(x -> {
+            ModelMapper m = new ModelMapper();
+            return m.map(x, FavoriteDTO.class);
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(listaDTO);
+    }
+
     @DeleteMapping("/delete/{idUsuario}/{idRestaurant}")
     public ResponseEntity<String> eliminar(@PathVariable("idUsuario") Integer idU, @PathVariable("idRestaurant") Integer idR) {
         Favorite f = FS.listId(idU, idR);

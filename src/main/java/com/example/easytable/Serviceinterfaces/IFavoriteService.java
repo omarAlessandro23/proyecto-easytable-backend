@@ -10,4 +10,5 @@ public interface IFavoriteService {
     public void delete(int idUsuario, int idRestaurant);
     public void update(Favorite favorite);
     public Favorite listId(int idUsuario, int idRestaurant);
+    public List<Favorite> listByUser(int idUsuario);
 }

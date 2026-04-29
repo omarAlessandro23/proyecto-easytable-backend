@@ -33,4 +33,9 @@ public class FavoriteServiceImplement implements IFavoriteService {
     public Favorite listId(int idUsuario, int idRestaurant) {
         FavoriteId id = new FavoriteId(idUsuario, idRestaurant);
         return FR.findById(id).orElse(new Favorite()); }
+
+    @Override
+    public List<Favorite> listByUser(int idUsuario) {
+        return FR.findByUsuario(idUsuario);
+    }
 }

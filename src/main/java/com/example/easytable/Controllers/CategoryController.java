@@ -50,6 +50,21 @@ public class CategoryController {
         return ResponseEntity.ok("Categoria actualizada correctamente");
     }
 
+    @GetMapping("/buscar")
+    public ResponseEntity<?> buscarPorNombre(@RequestParam("nombre") String nombre) {
+        List<Category> lista = CS.findByNameLike(nombre);
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontraron categorías que coincidan con: " + nombre);
+        }
+        ModelMapper m = new ModelMapper();
+        List<CategoryDTO> listaDTO = lista.stream()
+                .map(x -> m.map(x, CategoryDTO.class))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(listaDTO);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Category category = CS.listId(id);

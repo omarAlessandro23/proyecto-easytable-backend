@@ -10,4 +10,6 @@ public interface ICategoryService {
     public void delete(int id);
     public void update(Category category);
     public Category listId(int id);
+    public List<Category> findByName(String name);
+    public List<Category> findByNameLike(String name);
 }

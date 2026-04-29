@@ -1,7 +1,6 @@
 package com.example.easytable.Serviceimplements;
 
 import com.example.easytable.Entities.Category;
-import com.example.easytable.Entities.Notificacion;
 import com.example.easytable.Repositories.ICategoryRepository;
 import com.example.easytable.Serviceinterfaces.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,4 +26,14 @@ public class CategoryServiceImplement implements ICategoryService {
 
     @Override
     public Category listId(int id) { return CR.findById(id).get(); }
+
+    @Override
+    public List<Category> findByName(String name) {
+        return CR.findByNameCategory(name);
+    }
+
+    @Override
+    public List<Category> findByNameLike(String name) {
+        return CR.findByNameCategoryContainingIgnoreCase(name);
+    }
 }
