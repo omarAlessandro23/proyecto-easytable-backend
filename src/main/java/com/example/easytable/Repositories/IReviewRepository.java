@@ -19,4 +19,13 @@ public interface IReviewRepository extends JpaRepository<Review, Integer> {
             "ORDER BY promedio DESC",
             nativeQuery = true)
     List<Object[]> promedioRatingPorRestaurante();
+
+
+    @Query("SELECT res.name, AVG(rv.rating), COUNT(rv) " +
+            "FROM Review rv, Restaurant res " +
+            "WHERE rv.restaurantId = res.id " +
+            "GROUP BY res.name " +
+            "ORDER BY AVG(rv.rating) DESC, COUNT(rv) DESC")
+    List<Object[]> recommendedRestaurantsByRating();
+
 }

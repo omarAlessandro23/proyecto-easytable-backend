@@ -92,5 +92,9 @@ public class ReservationController {
 
         return ResponseEntity.ok(dtoList);
     }
+    @GetMapping("/restaurantes-mas-reservados-nombres")
+    public ResponseEntity<List<Object[]>> getMostReservedRestaurantNames() {
+        return ResponseEntity.ok(rS.mostReservedRestaurantNames());
+    }
 }
 
