@@ -56,4 +56,10 @@ public class ReservationServiceImplement implements IReservationService {
         return rR.findByRestaurantId(restaurantId);
     }
 
+    @Override
+    public List<Object[]> mostReservedRestaurantNames() {
+        return rR.mostReservedRestaurantNames();
+    }
+
+
 }

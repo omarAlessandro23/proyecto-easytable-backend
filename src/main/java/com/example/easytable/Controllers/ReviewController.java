@@ -74,4 +74,8 @@ public class ReviewController {
             return m.map(x, ReviewDTO.class);
         }).collect(Collectors.toList());
     }
+    @GetMapping("/restaurantes-recomendados")
+    public ResponseEntity<List<Object[]>> getRecommendedRestaurants() {
+        return ResponseEntity.ok(rS.recommendedRestaurantsByRating());
+    }
 }

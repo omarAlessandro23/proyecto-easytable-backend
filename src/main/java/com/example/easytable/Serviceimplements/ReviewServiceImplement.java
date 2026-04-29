@@ -56,4 +56,9 @@ public class ReviewServiceImplement implements IReviewService {
     public List<Review> findByRestaurantId(int restaurantId){
         return rR.findByReviewId(restaurantId);
     }
+
+    @Override
+    public List<Object[]> recommendedRestaurantsByRating() {
+        return rR.recommendedRestaurantsByRating();
+    }
 }
