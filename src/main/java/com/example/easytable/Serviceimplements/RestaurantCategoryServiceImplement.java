@@ -2,7 +2,6 @@ package com.example.easytable.Serviceimplements;
 
 import com.example.easytable.Entities.RestaurantCategoryMap;
 import com.example.easytable.Repositories.IRestaurantCategoryRepository;
-import com.example.easytable.Serviceinterfaces.IFavoritoService;
 import com.example.easytable.Serviceinterfaces.IRestaurantCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
