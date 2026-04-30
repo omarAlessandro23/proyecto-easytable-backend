@@ -36,4 +36,14 @@ public class CategoryServiceImplement implements ICategoryService {
     public List<Category> findByNameLike(String name) {
         return CR.findByNameCategoryContainingIgnoreCase(name);
     }
+
+    @Override
+    public List<Object[]> obtenerRankingPopularidad() {
+        return CR.findMostPopularCategoriesNative();
+    }
+
+    @Override
+    public List<Category> listarCategoriasHuerfanas() {
+        return CR.findEmptyCategoriesNative();
+    }
 }

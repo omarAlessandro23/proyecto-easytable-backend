@@ -1,6 +1,7 @@
 package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.FavoriteDTO;
+import com.example.easytable.Dtos.RestaurantDTO;
 import com.example.easytable.Entities.Favorite;
 import com.example.easytable.Serviceinterfaces.IFavoriteService;
 import org.modelmapper.ModelMapper;
@@ -73,5 +74,26 @@ public class FavoriteController {
         }
         FS.delete(idU, idR);
         return ResponseEntity.ok("Favorito eliminado correctamente.");
+    }
+
+    @GetMapping("/check/{uId}/{rId}")
+    public boolean checkFavorite(@PathVariable int uId, @PathVariable int rId) {
+        return FS.esFavorito(uId, rId);
+    }
+
+    @GetMapping("/user/{uId}")
+    public List<RestaurantDTO> getFavoritesByUser(@PathVariable int uId) {
+        ModelMapper m = new ModelMapper();
+        return FS.listarFavoritosPorUsuario(uId).stream()
+                .map(x -> m.map(x, RestaurantDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/suggestions/{uId}")
+    public List<RestaurantDTO> getSuggestions(@PathVariable int uId) {
+        ModelMapper m = new ModelMapper();
+        return FS.obtenerSugerencias(uId).stream()
+                .map(x -> m.map(x, RestaurantDTO.class))
+                .collect(Collectors.toList());
     }
 }

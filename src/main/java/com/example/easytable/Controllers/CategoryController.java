@@ -75,4 +75,18 @@ public class CategoryController {
         CS.delete(id);
         return ResponseEntity.ok("Categoria eliminda correctamente.");
     }
+
+    @GetMapping("/ranking")
+    public ResponseEntity<List<Object[]>> getRanking() {
+        return new ResponseEntity<>(CS.obtenerRankingPopularidad(), HttpStatus.OK);
+    }
+
+    @GetMapping("/huerfanas")
+    public ResponseEntity<List<CategoryDTO>> getHuerfanas() {
+        ModelMapper m = new ModelMapper();
+        List<CategoryDTO> listaDTO = CS.listarCategoriasHuerfanas().stream()
+                .map(x -> m.map(x, CategoryDTO.class))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(listaDTO, HttpStatus.OK);
+    }
 }

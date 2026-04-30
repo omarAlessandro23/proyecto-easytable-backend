@@ -12,4 +12,6 @@ public interface ICategoryService {
     public Category listId(int id);
     public List<Category> findByName(String name);
     public List<Category> findByNameLike(String name);
+    public List<Object[]> obtenerRankingPopularidad();
+    public List<Category> listarCategoriasHuerfanas();
 }

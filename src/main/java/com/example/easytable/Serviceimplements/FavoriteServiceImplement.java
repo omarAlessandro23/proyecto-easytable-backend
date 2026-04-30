@@ -2,6 +2,7 @@ package com.example.easytable.Serviceimplements;
 
 import com.example.easytable.Entities.Favorite;
 import com.example.easytable.Entities.FavoriteId;
+import com.example.easytable.Entities.Restaurant;
 import com.example.easytable.Repositories.IFavoriteRepository;
 import com.example.easytable.Serviceinterfaces.IFavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,20 @@ public class FavoriteServiceImplement implements IFavoriteService {
     @Override
     public List<Favorite> listByUser(int idUsuario) {
         return FR.findByUsuario(idUsuario);
+    }
+
+    @Override
+    public boolean esFavorito(int userId, int resId) {
+        return FR.isFavoriteNative(userId, resId);
+    }
+
+    @Override
+    public List<Restaurant> listarFavoritosPorUsuario(int userId) {
+        return FR.findFavoriteRestaurantsByUserNative(userId);
+    }
+
+    @Override
+    public List<Restaurant> obtenerSugerencias(int userId) {
+        return FR.findSuggestedRestaurantsNative(userId);
     }
 }
