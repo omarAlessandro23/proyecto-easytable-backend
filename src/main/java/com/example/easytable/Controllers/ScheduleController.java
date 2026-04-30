@@ -5,6 +5,7 @@ import com.example.easytable.Entities.Schedule;
 import com.example.easytable.Serviceinterfaces.IRestaurantService;
 import com.example.easytable.Serviceinterfaces.IScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,11 @@ public class ScheduleController {
     @GetMapping("/{id}")
     public Schedule listarId(@PathVariable("id")int id){
         return sS.listId(id);
+    }
+
+    @GetMapping("/horarios-por-restaurante")
+    public ResponseEntity<List<Object[]>> getSchedulesByRestaurant() {
+        return ResponseEntity.ok(sS.schedulesByRestaurant());
     }
 }
 

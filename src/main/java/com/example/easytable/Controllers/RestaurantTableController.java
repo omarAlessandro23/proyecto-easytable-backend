@@ -1,11 +1,13 @@
 package com.example.easytable.Controllers;
 
 
+import com.example.easytable.Dtos.RestaurantTableCapacityDTO;
 import com.example.easytable.Entities.Restaurant;
 import com.example.easytable.Entities.RestaurantTable;
 import com.example.easytable.Serviceinterfaces.IRestaurantService;
 import com.example.easytable.Serviceinterfaces.IRestaurantTableService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,5 +47,20 @@ public class RestaurantTableController {
     @GetMapping("/{id}")
     public RestaurantTable listarId(@PathVariable("id")int id){
         return rtS.listId(id);
+    }
+
+    @GetMapping("/capacidad-total-restaurante")
+    public ResponseEntity<List<RestaurantTableCapacityDTO>> getTotalCapacityByRestaurant() {
+
+        List<Object[]> data = rtS.totalCapacityByRestaurant();
+
+        List<RestaurantTableCapacityDTO> response = data.stream().map(obj -> {
+            String name = (String) obj[0];
+            Long total = ((Number) obj[1]).longValue();
+
+            return new RestaurantTableCapacityDTO(name, total);
+        }).toList();
+
+        return ResponseEntity.ok(response);
     }
 }

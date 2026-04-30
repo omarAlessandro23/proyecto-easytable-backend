@@ -9,4 +9,6 @@ public interface IRestaurantTableService {
     public void insert(RestaurantTable restaurantTable);
     public void delete(int id);
     public RestaurantTable listId(int id);
+
+    List<Object[]> totalCapacityByRestaurant();
 }
