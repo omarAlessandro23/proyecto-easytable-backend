@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class RestaurantQueryDTO {
+public class  RestaurantQueryDTO {
     private int id;
 
     @NotBlank(message = "El nombre es obligatorio")
