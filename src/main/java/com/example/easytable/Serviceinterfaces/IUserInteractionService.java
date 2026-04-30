@@ -1,6 +1,5 @@
 package com.example.easytable.Serviceinterfaces;
 
-import com.example.easytable.Entities.Favoritos;
 import com.example.easytable.Entities.UserInteraction;
 
 import java.util.List;
