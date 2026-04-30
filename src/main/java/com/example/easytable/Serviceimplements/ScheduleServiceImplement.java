@@ -34,5 +34,10 @@ public class ScheduleServiceImplement implements IScheduleService {
         return sR.findById(id).orElse(new Schedule());
     }
 
+    @Override
+    public List<Object[]> schedulesByRestaurant() {
+         return sR.schedulesByRestaurant();
+    }
+
 
 }

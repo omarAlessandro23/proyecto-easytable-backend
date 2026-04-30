@@ -9,4 +9,6 @@ public interface IScheduleService {
     public void insert(Schedule schedule);
     public void delete(int id);
     public Schedule listId(int id);
+
+    List<Object[]> schedulesByRestaurant();
 }

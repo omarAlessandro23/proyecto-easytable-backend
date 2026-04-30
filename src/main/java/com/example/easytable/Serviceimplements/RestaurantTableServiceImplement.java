@@ -37,4 +37,9 @@ public class RestaurantTableServiceImplement implements IRestaurantTableService 
         return rtR.findById(id).orElse(new RestaurantTable());
     }
 
+    @Override
+    public List<Object[]> totalCapacityByRestaurant() {
+        return rtR.totalCapacityByRestaurant();
+    }
+
 }
