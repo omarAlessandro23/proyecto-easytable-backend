@@ -27,7 +27,7 @@ public class RestaurantController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody RestaurantDTO dto) {
         ModelMapper m = new ModelMapper();
         Restaurant r = m.map(dto, Restaurant.class);
@@ -37,7 +37,7 @@ public class RestaurantController {
                 .body("Restaurante registrado correctamente.");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody RestaurantDTO dto) {
         Restaurant ex = rS.listId(id);
         if (ex == null) {
@@ -53,7 +53,7 @@ public class RestaurantController {
         return ResponseEntity.ok("Restaurante actualizado correctamente");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Restaurant restaurant = rS.listId(id);
         if (restaurant == null) {

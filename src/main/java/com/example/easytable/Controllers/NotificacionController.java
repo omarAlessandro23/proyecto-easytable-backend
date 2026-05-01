@@ -1,6 +1,8 @@
 package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.NotificacionDTO;
+import com.example.easytable.Dtos.NotificacionQuery1DTO;
+import com.example.easytable.Dtos.ReservationDTO;
 import com.example.easytable.Dtos.UsuarioDTO;
 import com.example.easytable.Entities.Notificacion;
 import com.example.easytable.Entities.Usuario;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +32,7 @@ public class NotificacionController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody NotificacionDTO dto) {
 
         ModelMapper m = new ModelMapper();
@@ -40,7 +43,7 @@ public class NotificacionController {
                 .body("Notificacion registrada correctamente.");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody NotificacionDTO dto) {
 
         Notificacion ex = NS.listId(id);
@@ -55,7 +58,7 @@ public class NotificacionController {
         return ResponseEntity.ok("Notificacion actualizada correctamente");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
 
         Notificacion notificacion = NS.listId(id);
@@ -65,6 +68,28 @@ public class NotificacionController {
         }
         NS.delete(id);
         return ResponseEntity.ok("Notificacion eliminada correctamente.");
+    }
+
+    @GetMapping("/notificaciones-fecha/{fecha}")
+    public ResponseEntity<?> buscarPorFecha(@PathVariable LocalDate fecha) {
+
+        List<NotificacionQuery1DTO> lista = NS.findByFecha(fecha).stream().map(x -> {
+            NotificacionQuery1DTO dto = new NotificacionQuery1DTO();
+
+            dto.setMensaje(x.getMensaje());
+            dto.setLeido(x.getLeido());
+            dto.setFecha(x.getFecha());
+            dto.setIdUsuario(x.getUsuario().getIdUsuario());
+
+            return dto;
+        }).collect(Collectors.toList());
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existen notificaciones para la fecha: " + fecha);
+        }
+
+        return ResponseEntity.ok(lista);
     }
 
 }

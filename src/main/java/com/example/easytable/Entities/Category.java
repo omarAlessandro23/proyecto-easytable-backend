@@ -3,21 +3,21 @@ package com.example.easytable.Entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Category")
+@Table(name="Category")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCategory;
 
-    @Column(name = "nameCategory",nullable = false,length = 50)
-    private String nameCategory;
+    @Column(name="NombreCategoria",length=25,nullable=false)
+    private String nombreCategoria;
 
     public Category() {
     }
 
-    public Category(int idCategory, String nameCategory) {
+    public Category(int idCategory, String nombreCategoria) {
         this.idCategory = idCategory;
-        this.nameCategory = nameCategory;
+        this.nombreCategoria = nombreCategoria;
     }
 
     public int getIdCategory() {
@@ -28,11 +28,11 @@ public class Category {
         this.idCategory = idCategory;
     }
 
-    public String getNameCategory() {
-        return nameCategory;
+    public String getNombreCategoria() {
+        return nombreCategoria;
     }
 
-    public void setNameCategory(String nameCategory) {
-        this.nameCategory = nameCategory;
+    public void setNombreCategoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
     }
 }

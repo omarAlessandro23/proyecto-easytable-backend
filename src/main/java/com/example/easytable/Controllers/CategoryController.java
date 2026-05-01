@@ -1,7 +1,9 @@
 package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.CategoryDTO;
+import com.example.easytable.Dtos.RestaurantDTO;
 import com.example.easytable.Entities.Category;
+import com.example.easytable.Entities.Restaurant;
 import com.example.easytable.Serviceinterfaces.ICategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,80 +15,61 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/Category")
+@RequestMapping("/categoria")
 public class CategoryController {
+
     @Autowired
-    private ICategoryService CS;
+    private ICategoryService  cS;
+
 
     @GetMapping("/listar")
     public List<CategoryDTO> listar() {
-        return CS.list().stream().map( x -> {
+        return cS.list().stream().map(x -> {
             ModelMapper m = new ModelMapper();
             return m.map(x, CategoryDTO.class);
         }).collect(Collectors.toList());
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody CategoryDTO dto) {
-        ModelMapper m = new ModelMapper();
-        Category c = m.map(dto, Category.class);
-        CS.insert(c);
+
+        if (dto.getNombreCategoria() == null || dto.getNombreCategoria().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El nombre es obligatorio");
+        }
+
+        Category c = new Category();
+        c.setNombreCategoria(dto.getNombreCategoria());
+
+        cS.insert(c);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Categoria registrada correctamente.");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO dto) {
-        Category ex = CS.listId(id);
-        if (ex == null)
+        Category cat = cS.listId(id);
+        if (cat == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe una categoria con ese ID.");
+        }
+
         ModelMapper m = new ModelMapper();
         Category c = m.map(dto, Category.class);
         c.setIdCategory(id);
-        CS.update(c);
+        cS.update(c);
 
         return ResponseEntity.ok("Categoria actualizada correctamente");
     }
 
-    @GetMapping("/buscar")
-    public ResponseEntity<?> buscarPorNombre(@RequestParam("nombre") String nombre) {
-        List<Category> lista = CS.findByNameLike(nombre);
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontraron categorías que coincidan con: " + nombre);
-        }
-        ModelMapper m = new ModelMapper();
-        List<CategoryDTO> listaDTO = lista.stream()
-                .map(x -> m.map(x, CategoryDTO.class))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(listaDTO);
-    }
-
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
-        Category category = CS.listId(id);
-        if (category == null) {
+        Category c = cS.listId(id);
+        if (c == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No existe una categoria con el ID: " + id);
         }
-        CS.delete(id);
-        return ResponseEntity.ok("Categoria eliminda correctamente.");
-    }
-
-    @GetMapping("/ranking")
-    public ResponseEntity<List<Object[]>> getRanking() {
-        return new ResponseEntity<>(CS.obtenerRankingPopularidad(), HttpStatus.OK);
-    }
-
-    @GetMapping("/huerfanas")
-    public ResponseEntity<List<CategoryDTO>> getHuerfanas() {
-        ModelMapper m = new ModelMapper();
-        List<CategoryDTO> listaDTO = CS.listarCategoriasHuerfanas().stream()
-                .map(x -> m.map(x, CategoryDTO.class))
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(listaDTO, HttpStatus.OK);
+        cS.delete(id);
+        return ResponseEntity.ok("Categoria eliminada correctamente.");
     }
 }

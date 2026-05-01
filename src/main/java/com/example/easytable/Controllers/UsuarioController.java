@@ -26,7 +26,7 @@ public class UsuarioController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody UsuarioDTO dto) {
 
         ModelMapper m = new ModelMapper();
@@ -37,7 +37,7 @@ public class UsuarioController {
                 .body("Usuario registrado correctamente.");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UsuarioDTO dto) {
 
         Usuario ex = US.listId(id);
@@ -52,7 +52,7 @@ public class UsuarioController {
         return ResponseEntity.ok("Usuario actualizado correctamente");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
 
         Usuario usuario = US.listId(id);

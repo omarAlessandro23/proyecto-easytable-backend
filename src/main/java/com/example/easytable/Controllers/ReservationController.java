@@ -9,14 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/Reservation")
+@RequestMapping("/Reservacion")
 public class ReservationController {
 
     @Autowired
@@ -30,7 +29,7 @@ public class ReservationController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registrar")
     public ResponseEntity<String> insert(@RequestBody ReservationDTO dto) {
         ModelMapper m = new ModelMapper();
         Reservation r = m.map(dto, Reservation.class);
@@ -40,7 +39,7 @@ public class ReservationController {
                 .body("Reserva registrada correctamente.");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody ReservationDTO dto) {
         Reservation ex = rS.listId(id);
         if (ex == null) {
@@ -56,7 +55,7 @@ public class ReservationController {
         return ResponseEntity.ok("Reserva actualizada correctamente");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
         Reservation reservation = rS.listId(id);
         if (reservation == null) {
@@ -67,34 +66,30 @@ public class ReservationController {
         return ResponseEntity.ok("Reserva eliminada correctamente.");
     }
 
-    @GetMapping("/reservas-por-usuario")
-    public ResponseEntity<List<ReservationDTO>> getReservaxUsuario(@RequestParam Integer userId) {
+    @GetMapping("/buscar-estado/{status}")
+    public ResponseEntity<?> buscarPorEstado(@PathVariable String status) {
 
-        List<Reservation> reservas = rS.findByUserId(userId);
-
-        if (reservas.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
-        }
-
-        List<ReservationDTO> dtoList = reservas.stream().map(r -> {
+        List<ReservationDTO> lista = rS.findByStatus(status).stream().map(x -> {
             ReservationDTO dto = new ReservationDTO();
 
-            dto.setReservationId(r.getReservationId()); // ajusta si tu campo se llama distinto
-            dto.setUserId(r.getUserId());
-            dto.setRestaurantId(r.getRestaurantId());
-            dto.setTableId(r.getTableId());
-            dto.setReservationDate(LocalDate.from(r.getReservationDate().atStartOfDay()));
-            dto.setStatus(r.getStatus());
-            dto.setNumberPeople(r.getNumberPeople());
+            dto.setReservationId(x.getReservationId());
+            dto.setUserId(x.getUserId());
+            dto.setRestaurantId(x.getRestaurantId());
+            dto.setTableId(x.getTableId());
+            dto.setReservationDate(x.getReservationDate());
+            dto.setStatus(x.getStatus());
+            dto.setNumberPeople(x.getNumberPeople());
 
             return dto;
-        }).toList();
+        }).collect(Collectors.toList());
 
-        return ResponseEntity.ok(dtoList);
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existen reservas con el estado: " + status);
+        }
+
+        return ResponseEntity.ok(lista);
     }
-    @GetMapping("/restaurantes-mas-reservados-nombres")
-    public ResponseEntity<List<Object[]>> getMostReservedRestaurantNames() {
-        return ResponseEntity.ok(rS.mostReservedRestaurantNames());
-    }
+
 }
 

@@ -14,7 +14,7 @@ public interface IReviewRepository extends JpaRepository<Review, Integer> {
     List<Review> findByUserId(int restaurantId);
     @Query(value = "SELECT r.name, AVG(rv.rating) AS promedio " +
             "FROM reviews rv " +
-            "JOIN restaurants r ON rv.restaurant_id = r.restaurant_id " +
+            "JOIN restaurant r ON rv.restaurant_id = r.restaurant_id " +
             "GROUP BY r.name " +
             "ORDER BY promedio DESC",
             nativeQuery = true)
