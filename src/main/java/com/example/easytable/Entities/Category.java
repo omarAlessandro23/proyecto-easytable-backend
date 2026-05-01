@@ -10,14 +10,14 @@ public class Category {
     private int idCategory;
 
     @Column(name="NombreCategoria",length=25,nullable=false)
-    private String NombreCategoria;
+    private String nombreCategoria;
 
     public Category() {
     }
 
     public Category(int idCategory, String nombreCategoria) {
         this.idCategory = idCategory;
-        NombreCategoria = nombreCategoria;
+        this.nombreCategoria = nombreCategoria;
     }
 
     public int getIdCategory() {
@@ -29,10 +29,10 @@ public class Category {
     }
 
     public String getNombreCategoria() {
-        return NombreCategoria;
+        return nombreCategoria;
     }
 
     public void setNombreCategoria(String nombreCategoria) {
-        NombreCategoria = nombreCategoria;
+        this.nombreCategoria = nombreCategoria;
     }
 }

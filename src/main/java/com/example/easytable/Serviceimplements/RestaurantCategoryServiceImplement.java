@@ -39,8 +39,8 @@ public class RestaurantCategoryServiceImplement implements IRestaurantCategorySe
     }
 
     @Override
-    public List<Object[]> restaurantxcategoria() {
-        return rc.restaurantxcategoria();
+    public List<Object[]> contarRestaurantesPorCategoria() {
+        return rc.contarRestaurantesPorCategoria();
     }
 
 

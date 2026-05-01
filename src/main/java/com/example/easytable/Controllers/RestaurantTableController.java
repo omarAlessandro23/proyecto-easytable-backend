@@ -20,12 +20,12 @@ public class RestaurantTableController {
     @Autowired
     private IRestaurantService rS;
 
-    @GetMapping
+    @GetMapping("/lsitar")
     public List<RestaurantTable> listar(){
         return rtS.list();
     }
 
-    @PostMapping
+    @PostMapping("/insertar")
     public void insertar(@RequestBody RestaurantTable restaurantTable){
         if(restaurantTable.getCapacity()<=0){
             throw new RuntimeException("la capacidad debe ser mayor a 0");
@@ -37,12 +37,12 @@ public class RestaurantTableController {
         rtS.insert(restaurantTable);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public void eliminar(@PathVariable("id") int id){
         rtS.delete(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/lsitar-id/{id}")
     public RestaurantTable listarId(@PathVariable("id")int id){
         return rtS.listId(id);
     }

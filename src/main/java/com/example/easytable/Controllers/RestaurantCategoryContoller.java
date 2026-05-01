@@ -1,13 +1,18 @@
 package com.example.easytable.Controllers;
 
+import com.example.easytable.Dtos.NotificacionDTO;
 import com.example.easytable.Dtos.RestaurantCategoryDTO;
+import com.example.easytable.Dtos.RestaurantCategoryQuery1DTO;
 import com.example.easytable.Entities.Category;
+import com.example.easytable.Entities.Notificacion;
 import com.example.easytable.Entities.Restaurant;
+import com.example.easytable.Entities.RestaurantCategoryMap;
 import com.example.easytable.Serviceinterfaces.IRestaurantCategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,24 +23,30 @@ public class RestaurantCategoryContoller {
     @Autowired
     private IRestaurantCategoryService rS;
 
-    @GetMapping("/restaurantes-por-categoria")
-    public List<RestaurantCategoryDTO> listar() {
+    @PostMapping("/registrar")
+    public ResponseEntity<String> insertar(@RequestBody RestaurantCategoryDTO dto) {
 
-        return rS.restaurantxcategoria().stream().map(x -> {
+        ModelMapper m = new ModelMapper();
+        RestaurantCategoryMap r = m.map(dto, RestaurantCategoryMap.class);
+        rS.insert(r);
 
-            RestaurantCategoryDTO dto = new RestaurantCategoryDTO();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Restaurante con categoria registrada correctamente.");
+    }
 
-            Category c = new Category();
-            c.setNombreCategoria((String) x[0]);
+    @GetMapping("/restaurantes-categoria")
+    public List<RestaurantCategoryQuery1DTO> listar() {
 
-            Restaurant r = new Restaurant();
-            r.setName((String) x[1]);
+        return rS.contarRestaurantesPorCategoria().stream().map(x -> {
 
-            dto.setCategory(c);
-            dto.setRestaurant(r);
+            RestaurantCategoryQuery1DTO dto = new RestaurantCategoryQuery1DTO();
+
+            dto.setNombreCategoria((String) x[0]);
+            dto.setContador(((Long) x[1]).intValue());
 
             return dto;
 
         }).collect(Collectors.toList());
     }
+
 }

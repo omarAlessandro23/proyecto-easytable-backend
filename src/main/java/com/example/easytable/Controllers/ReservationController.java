@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/Reservation")
+@RequestMapping("/Reservacion")
 public class ReservationController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class ReservationController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registrar")
     public ResponseEntity<String> insert(@RequestBody ReservationDTO dto) {
         ModelMapper m = new ModelMapper();
         Reservation r = m.map(dto, Reservation.class);
@@ -39,7 +39,7 @@ public class ReservationController {
                 .body("Reserva registrada correctamente.");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody ReservationDTO dto) {
         Reservation ex = rS.listId(id);
         if (ex == null) {
@@ -55,7 +55,7 @@ public class ReservationController {
         return ResponseEntity.ok("Reserva actualizada correctamente");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
         Reservation reservation = rS.listId(id);
         if (reservation == null) {
@@ -66,10 +66,10 @@ public class ReservationController {
         return ResponseEntity.ok("Reserva eliminada correctamente.");
     }
 
-    @GetMapping("/reservas/estado/{status}")
-    public List<ReservationDTO> buscarPorEstado(@PathVariable String status) {
+    @GetMapping("/buscar-estado/{status}")
+    public ResponseEntity<?> buscarPorEstado(@PathVariable String status) {
 
-        return rS.findByStatus(status).stream().map(x -> {
+        List<ReservationDTO> lista = rS.findByStatus(status).stream().map(x -> {
             ReservationDTO dto = new ReservationDTO();
 
             dto.setReservationId(x.getReservationId());
@@ -82,6 +82,13 @@ public class ReservationController {
 
             return dto;
         }).collect(Collectors.toList());
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existen reservas con el estado: " + status);
+        }
+
+        return ResponseEntity.ok(lista);
     }
 
 }

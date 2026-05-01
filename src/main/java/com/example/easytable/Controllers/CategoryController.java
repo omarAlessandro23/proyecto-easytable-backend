@@ -30,17 +30,23 @@ public class CategoryController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody CategoryDTO dto) {
-        ModelMapper m = new ModelMapper();
-        Category c = m.map(dto, Category.class);
+
+        if (dto.getNombreCategoria() == null || dto.getNombreCategoria().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El nombre es obligatorio");
+        }
+
+        Category c = new Category();
+        c.setNombreCategoria(dto.getNombreCategoria());
+
         cS.insert(c);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Categoria registrada correctamente.");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO dto) {
         Category cat = cS.listId(id);
         if (cat == null) {
@@ -56,7 +62,7 @@ public class CategoryController {
         return ResponseEntity.ok("Categoria actualizada correctamente");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Category c = cS.listId(id);
         if (c == null) {

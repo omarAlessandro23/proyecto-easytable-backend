@@ -9,9 +9,10 @@ import java.util.List;
 
 @Repository
 public interface IRestaurantCategoryRepository extends JpaRepository<RestaurantCategoryMap, Integer> {
-    @Query("SELECT rc.category.NombreCategoria, rc.restaurant.name " +
+    @Query("SELECT rc.category.nombreCategoria, COUNT(rc.restaurant.id) " +
             "FROM RestaurantCategoryMap rc " +
-            "ORDER BY rc.category.NombreCategoria")
-    List<Object[]> restaurantxcategoria();
+            "GROUP BY rc.category.nombreCategoria " +
+            "ORDER BY rc.category.nombreCategoria")
+    List<Object[]> contarRestaurantesPorCategoria();
 
 }

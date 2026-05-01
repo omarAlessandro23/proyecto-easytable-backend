@@ -19,12 +19,12 @@ public class ScheduleController {
     @Autowired
     private IRestaurantService rS;
 
-    @GetMapping
+    @GetMapping("/listar")
     public List<Schedule> listar(){
         return sS.list();
     }
 
-    @PostMapping("/schedules")
+    @PostMapping("/registrar")
     public void insertar(@RequestBody ScheduleDTO dto) {
         if (dto.getDayOfWeek() < 0 || dto.getDayOfWeek() > 6) {
             throw new RuntimeException("El día debe estar entre 0 y 6");
@@ -49,12 +49,12 @@ public class ScheduleController {
 
         sS.insert(schedule);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public void eliminar(@PathVariable("id")int id){
         sS.delete(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/listar-id/{id}")
     public Schedule listarId(@PathVariable("id")int id){
         return sS.listId(id);
     }

@@ -7,6 +7,7 @@ import jakarta.persistence.Access;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,5 +37,10 @@ public class NotificacionServiceImplement implements INotificacionService {
     @Override
     public Notificacion listId(int id) {
         return NR.findById(id).get();
+    }
+
+    @Override
+    public List<Notificacion> findByFecha(LocalDate fecha) {
+        return NR.findByFecha(fecha);
     }
 }
