@@ -2,6 +2,7 @@ package com.example.easytable.Serviceinterfaces;
 
 import com.example.easytable.Entities.Reservation;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface IReservationService {
@@ -13,4 +14,7 @@ public interface IReservationService {
 
     public List<Reservation> findByUserId(int userId);
     public List<Reservation> findByRestaurantId(int restaurantId);
-    List<Object[]> mostReservedRestaurantNames();}
+
+    Collection<Object> findByStatus(String status);
+}
+

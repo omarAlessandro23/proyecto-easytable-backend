@@ -3,6 +3,8 @@ package com.example.easytable.Serviceinterfaces;
 import com.example.easytable.Entities.Notificacion;
 import com.example.easytable.Entities.Usuario;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 public interface INotificacionService {
@@ -11,4 +13,6 @@ public interface INotificacionService {
     public void delete(int id);
     public void update(Notificacion notificacion);
     public Notificacion listId(int id);
+
+    Collection<Object> findByFecha(LocalDate fecha);
 }

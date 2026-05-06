@@ -29,12 +29,12 @@ public class CategoryServiceImplement implements ICategoryService {
 
     @Override
     public List<Category> findByName(String name) {
-        return CR.findByNameCategory(name);
+        return CR.findByNombreCategoria(name);
     }
 
     @Override
     public List<Category> findByNameLike(String name) {
-        return CR.findByNameCategoryContainingIgnoreCase(name);
+        return CR.findByNombreCategoria(name);
     }
 
     @Override

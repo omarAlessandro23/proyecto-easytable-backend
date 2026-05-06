@@ -67,28 +67,11 @@ public class ReservationController {
     }
 
     @GetMapping("/buscar-estado/{status}")
-    public ResponseEntity<?> buscarPorEstado(@PathVariable String status) {
-
-        List<ReservationDTO> lista = rS.findByStatus(status).stream().map(x -> {
-            ReservationDTO dto = new ReservationDTO();
-
-            dto.setReservationId(x.getReservationId());
-            dto.setUserId(x.getUserId());
-            dto.setRestaurantId(x.getRestaurantId());
-            dto.setTableId(x.getTableId());
-            dto.setReservationDate(x.getReservationDate());
-            dto.setStatus(x.getStatus());
-            dto.setNumberPeople(x.getNumberPeople());
-
-            return dto;
-        }).collect(Collectors.toList());
-
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existen reservas con el estado: " + status);
-        }
-
-        return ResponseEntity.ok(lista);
+    public List<ReservationDTO> buscarPorEstado(@PathVariable String status) {
+        return rS.findByStatus(status).stream().map(x -> {
+            ModelMapper m = new ModelMapper();
+            return m.map(x, ReservationDTO.class);
+        }).toList();
     }
 
 }

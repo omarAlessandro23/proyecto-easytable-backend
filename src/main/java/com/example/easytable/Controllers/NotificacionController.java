@@ -2,19 +2,19 @@ package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.NotificacionDTO;
 import com.example.easytable.Dtos.NotificacionQuery1DTO;
-import com.example.easytable.Dtos.ReservationDTO;
-import com.example.easytable.Dtos.UsuarioDTO;
 import com.example.easytable.Entities.Notificacion;
 import com.example.easytable.Entities.Usuario;
 import com.example.easytable.Serviceinterfaces.INotificacionService;
 import com.example.easytable.Serviceinterfaces.IUsuarioService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,18 +71,12 @@ public class NotificacionController {
     }
 
     @GetMapping("/notificaciones-fecha/{fecha}")
-    public ResponseEntity<?> buscarPorFecha(@PathVariable LocalDate fecha) {
+    public ResponseEntity<?> buscarPorFecha(
+            @PathVariable
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate fecha) {
 
-        List<NotificacionQuery1DTO> lista = NS.findByFecha(fecha).stream().map(x -> {
-            NotificacionQuery1DTO dto = new NotificacionQuery1DTO();
-
-            dto.setMensaje(x.getMensaje());
-            dto.setLeido(x.getLeido());
-            dto.setFecha(x.getFecha());
-            dto.setIdUsuario(x.getUsuario().getIdUsuario());
-
-            return dto;
-        }).collect(Collectors.toList());
+        Collection<Object> lista = NS.findByFecha(fecha);
 
         if (lista.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
