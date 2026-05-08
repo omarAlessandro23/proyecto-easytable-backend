@@ -6,6 +6,7 @@ import com.example.easytable.Entities.RestaurantTable;
 import com.example.easytable.Serviceinterfaces.IRestaurantService;
 import com.example.easytable.Serviceinterfaces.IRestaurantTableService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,11 +20,12 @@ public class RestaurantTableController {
 
     @Autowired
     private IRestaurantService rS;
-
-    @GetMapping("/lsitar")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
+    @GetMapping("/listar")
     public List<RestaurantTable> listar(){
         return rtS.list();
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
 
     @PostMapping("/insertar")
     public void insertar(@RequestBody RestaurantTable restaurantTable){
@@ -36,13 +38,15 @@ public class RestaurantTableController {
 
         rtS.insert(restaurantTable);
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
 
     @DeleteMapping("/eliminar/{id}")
     public void eliminar(@PathVariable("id") int id){
         rtS.delete(id);
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
 
-    @GetMapping("/lsitar-id/{id}")
+    @GetMapping("/listar-id/{id}")
     public RestaurantTable listarId(@PathVariable("id")int id){
         return rtS.listId(id);
     }

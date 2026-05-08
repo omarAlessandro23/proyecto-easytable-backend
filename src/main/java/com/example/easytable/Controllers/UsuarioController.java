@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +26,6 @@ public class UsuarioController {
             return m.map(x, UsuarioDTO.class);
         }).collect(Collectors.toList());
     }
-
     @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody UsuarioDTO dto) {
 
@@ -36,7 +36,6 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Usuario registrado correctamente.");
     }
-
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UsuarioDTO dto) {
 
@@ -51,7 +50,6 @@ public class UsuarioController {
 
         return ResponseEntity.ok("Usuario actualizado correctamente");
     }
-
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
 

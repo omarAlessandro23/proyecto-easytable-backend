@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class CategoryController {
     @Autowired
     private ICategoryService  cS;
 
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/listar")
     public List<CategoryDTO> listar() {
         return cS.list().stream().map(x -> {
@@ -29,7 +30,7 @@ public class CategoryController {
             return m.map(x, CategoryDTO.class);
         }).collect(Collectors.toList());
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody CategoryDTO dto) {
 
@@ -45,7 +46,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Categoria registrada correctamente.");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO dto) {
         Category cat = cS.listId(id);
@@ -61,7 +62,7 @@ public class CategoryController {
 
         return ResponseEntity.ok("Categoria actualizada correctamente");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Category c = cS.listId(id);

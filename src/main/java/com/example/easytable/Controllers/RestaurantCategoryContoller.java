@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class RestaurantCategoryContoller {
     @Autowired
     private IRestaurantCategoryService rS;
+    @PreAuthorize("hasRole('OWNER')")
 
     @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody RestaurantCategoryDTO dto) {
@@ -33,7 +35,7 @@ public class RestaurantCategoryContoller {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Restaurante con categoria registrada correctamente.");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/restaurantes-categoria")
     public List<RestaurantCategoryQuery1DTO> listar() {
 

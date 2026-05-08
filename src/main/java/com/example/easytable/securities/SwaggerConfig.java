@@ -24,9 +24,9 @@ public class SwaggerConfig {
                                 .scheme("bearer")
                                 .bearerFormat("JWT")))
                 .info(new Info()
-                        .title("Money Project API")
+                        .title("Easytable Project API")
                         .version("1.0")
-                        .description("Documentación de la API protegida con JWT para Money Project"));
+                        .description("Documentación de la API protegida con JWT para Easytable"));
     }
 }
 

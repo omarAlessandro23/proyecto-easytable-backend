@@ -5,6 +5,7 @@ import com.example.easytable.Entities.Schedule;
 import com.example.easytable.Serviceinterfaces.IRestaurantService;
 import com.example.easytable.Serviceinterfaces.IScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,11 +18,13 @@ public class ScheduleController {
 
     @Autowired
     private IRestaurantService rS;
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
 
     @GetMapping
     public List<Schedule> listar(){
         return sS.list();
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
 
     @PostMapping
     public void insertar(@RequestBody Schedule schedule){
@@ -37,11 +40,13 @@ public class ScheduleController {
 
         sS.insert(schedule);
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
 
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable("id")int id){
         sS.delete(id);
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
 
     @GetMapping("/{id}")
     public Schedule listarId(@PathVariable("id")int id){

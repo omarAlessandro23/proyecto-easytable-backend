@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 public class FavoriteController {
     @Autowired
     private IFavoriteService FS;
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/listar")
     public List<FavoriteDTO> listar() {
         return FS.list().stream().map(x -> {
@@ -26,7 +27,7 @@ public class FavoriteController {
             return m.map(x, FavoriteDTO.class);
         }).collect(Collectors.toList());
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping("/register")
     public ResponseEntity<String> insertar(@RequestBody FavoriteDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -36,7 +37,7 @@ public class FavoriteController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Restaurante añadido a favoritos correctamente.");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/listar/{idUsuario}/{idRestaurant}")
     public ResponseEntity<?> listarId(@PathVariable("idUsuario") Integer idU, @PathVariable("idRestaurant") Integer idR) {
         Favorite f = FS.listId(idU, idR);
@@ -48,7 +49,7 @@ public class FavoriteController {
         FavoriteDTO dto = m.map(f, FavoriteDTO.class);
         return ResponseEntity.ok(dto);
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/usuario/{idUsuario}")
     public ResponseEntity<?> listarPorUsuario(@PathVariable("idUsuario") Integer idU) {
         List<Favorite> lista = FS.listByUser(idU);
@@ -64,7 +65,7 @@ public class FavoriteController {
 
         return ResponseEntity.ok(listaDTO);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{idUsuario}/{idRestaurant}")
     public ResponseEntity<String> eliminar(@PathVariable("idUsuario") Integer idU, @PathVariable("idRestaurant") Integer idR) {
         Favorite f = FS.listId(idU, idR);
@@ -75,7 +76,7 @@ public class FavoriteController {
         FS.delete(idU, idR);
         return ResponseEntity.ok("Favorito eliminado correctamente.");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/check/{uId}/{rId}")
     public boolean checkFavorite(@PathVariable int uId, @PathVariable int rId) {
         return FS.esFavorito(uId, rId);
@@ -88,7 +89,7 @@ public class FavoriteController {
                 .map(x -> m.map(x, RestaurantDTO.class))
                 .collect(Collectors.toList());
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/suggestions/{uId}")
     public List<RestaurantDTO> getSuggestions(@PathVariable int uId) {
         ModelMapper m = new ModelMapper();

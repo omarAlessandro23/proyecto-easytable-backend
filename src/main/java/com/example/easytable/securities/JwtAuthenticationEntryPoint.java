@@ -15,7 +15,19 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
     private static final long serialVersionUID = -7858869558953243875L;
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+    public void commence(HttpServletRequest request,
+                         HttpServletResponse response,
+                         AuthenticationException authException)
+            throws IOException {
+
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+
+        response.getWriter().write("""
+    {
+        "status": 401,
+        "mensaje": "No autorizado. Debe iniciar sesion primero."
+    }
+    """);
     }
 }

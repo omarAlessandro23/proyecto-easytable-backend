@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class RestaurantController {
             return m.map(x, RestaurantDTO.class);
         }).collect(Collectors.toList());
     }
-
+    @PreAuthorize("hasRole('OWNER')")
     @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody RestaurantDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -36,7 +37,7 @@ public class RestaurantController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Restaurante registrado correctamente.");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody RestaurantDTO dto) {
         Restaurant ex = rS.listId(id);
@@ -52,7 +53,7 @@ public class RestaurantController {
 
         return ResponseEntity.ok("Restaurante actualizado correctamente");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Restaurant restaurant = rS.listId(id);
@@ -63,6 +64,7 @@ public class RestaurantController {
         rS.delete(id);
         return ResponseEntity.ok("Restaurante eliminado correctamente.");
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/mejoresCalificados")
     public ResponseEntity<?> buscarTop(@RequestParam Double rating) {
         // Validación de rango lógico
@@ -79,6 +81,7 @@ public class RestaurantController {
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     // 3. Búsqueda por Cercanía (Geolocalización)
     @GetMapping("/cercanos")
     public ResponseEntity<?> buscarCercanos(@RequestParam Double lat, @RequestParam Double lng, @RequestParam Double dist) {

@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class ReservationController {
             return m.map(x, ReservationDTO.class);
         }).collect(Collectors.toList());
     }
-
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/registrar")
     public ResponseEntity<String> insert(@RequestBody ReservationDTO dto) {
         ModelMapper m = new ModelMapper();
@@ -38,7 +39,7 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Reserva registrada correctamente.");
     }
-
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody ReservationDTO dto) {
         Reservation ex = rS.listId(id);
@@ -54,7 +55,7 @@ public class ReservationController {
 
         return ResponseEntity.ok("Reserva actualizada correctamente");
     }
-
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
         Reservation reservation = rS.listId(id);
@@ -65,6 +66,7 @@ public class ReservationController {
         rS.delete(id);
         return ResponseEntity.ok("Reserva eliminada correctamente.");
     }
+    @PreAuthorize("hasRole('USER')")
 
     @GetMapping("/buscar-estado/{status}")
     public List<ReservationDTO> buscarPorEstado(@PathVariable String status) {

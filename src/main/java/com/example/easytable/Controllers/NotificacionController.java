@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 public class NotificacionController {
     @Autowired
     private INotificacionService NS;
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/listar")
     public List<NotificacionDTO> listar() {
         return NS.list().stream().map(x -> {
@@ -31,7 +32,7 @@ public class NotificacionController {
             return m.map(x, NotificacionDTO.class);
         }).collect(Collectors.toList());
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody NotificacionDTO dto) {
 
@@ -42,7 +43,7 @@ public class NotificacionController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Notificacion registrada correctamente.");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody NotificacionDTO dto) {
 
@@ -57,7 +58,7 @@ public class NotificacionController {
 
         return ResponseEntity.ok("Notificacion actualizada correctamente");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
 
@@ -69,7 +70,7 @@ public class NotificacionController {
         NS.delete(id);
         return ResponseEntity.ok("Notificacion eliminada correctamente.");
     }
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @GetMapping("/notificaciones-fecha/{fecha}")
     public ResponseEntity<?> buscarPorFecha(
             @PathVariable
