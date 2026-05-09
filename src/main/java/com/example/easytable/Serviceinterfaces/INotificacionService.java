@@ -2,6 +2,7 @@ package com.example.easytable.Serviceinterfaces;
 
 import com.example.easytable.Entities.Notificacion;
 import com.example.easytable.Entities.Usuario;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -13,6 +14,5 @@ public interface INotificacionService {
     public void delete(int id);
     public void update(Notificacion notificacion);
     public Notificacion listId(int id);
-
-    Collection<Object> findByFecha(LocalDate fecha);
+    List<Object[]> findByfecha(LocalDate fecha);
 }

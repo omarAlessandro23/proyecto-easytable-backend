@@ -68,6 +68,11 @@ public class UsuarioServiceImplement implements IUsuarioService {
 
     @Override
     public Usuario listId(int id) {
-        return UR.findById(id).orElse(new Usuario());
+        return UR.findById(id).orElse(null);
+    }
+
+    @Override
+    public boolean existsById(int id) {
+        return UR.existsById(id);
     }
 }

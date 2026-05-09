@@ -24,11 +24,21 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/listar")
-    public List<CategoryDTO> listar() {
-        return cS.list().stream().map(x -> {
+    public ResponseEntity<?> listar() {
+
+        List<Category> lista = cS.list();
+
+        if (lista == null || lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existen categorías registradas.");
+        }
+
+        List<CategoryDTO> response = lista.stream().map(x -> {
             ModelMapper m = new ModelMapper();
             return m.map(x, CategoryDTO.class);
         }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
     }
     @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @PostMapping("/registrar")

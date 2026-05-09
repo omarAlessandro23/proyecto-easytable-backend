@@ -25,7 +25,7 @@ public class CategoryServiceImplement implements ICategoryService {
     public void update(Category category) { CR.save(category); }
 
     @Override
-    public Category listId(int id) { return CR.findById(id).get(); }
+    public Category listId(int id) { return CR.findById(id).orElse(null); }
 
     @Override
     public List<Category> findByName(String name) {

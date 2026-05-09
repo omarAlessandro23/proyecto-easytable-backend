@@ -75,7 +75,7 @@ public class WebSecurityConfig {
                         ).permitAll()
 
                         // TODO lo demás requiere autenticación
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
 
                 .formLogin(AbstractHttpConfigurer::disable)

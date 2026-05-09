@@ -37,11 +37,13 @@ public class NotificacionServiceImplement implements INotificacionService {
 
     @Override
     public Notificacion listId(int id) {
-        return NR.findById(id).get();
+        return NR.findById(id).orElse(null);
     }
 
     @Override
-    public Collection<Object> findByFecha(LocalDate fecha) {
-        return List.of();
+    public List<Object[]> findByfecha(LocalDate fecha) {
+        return NR.findByfecha(fecha);
     }
+
+
 }
