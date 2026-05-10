@@ -5,7 +5,6 @@ import java.time.LocalTime;
 public class ScheduleDTO {
 
     private int scheduleId;
-    private int restaurantId;
     private int dayOfWeek;
     private LocalTime openTime;
     private LocalTime closeTime;
@@ -19,14 +18,6 @@ public class ScheduleDTO {
 
     public void setScheduleId(int scheduleId) {
         this.scheduleId = scheduleId;
-    }
-
-    public int getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(int restaurantId) {
-        this.restaurantId = restaurantId;
     }
 
     public int getDayOfWeek() {

@@ -7,16 +7,16 @@ public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restaurant_id")
-    private int id;
+    private int restaurantid;
     @Column(nullable = false, length = 100)
     private String name;
     @Column(columnDefinition = "TEXT")
     private String address;
     @Column(name = "rating_avg", nullable = false)
     private Double ratingAvg;
-    @Column(name = "web_url", length = 100)
+    @Column(name = "web_url", length = 300)
     private String webUrl;
-    @Column(name = "google_maps_url", length = 100)
+    @Column(name = "google_maps_url", length = 300)
     private String googleMapsUrl;
     @Column(name="latitude",nullable=false)
     private Double latitude;
@@ -24,7 +24,7 @@ public class Restaurant {
     private Double longitude;
 
     public Restaurant(int id, String name, String address, Double ratingAvg, String webUrl, String googleMapsUrl, Double latitude, Double longitude) {
-        this.id = id;
+        this.restaurantid = id;
         this.name = name;
         this.address = address;
         this.ratingAvg = ratingAvg;
@@ -38,11 +38,11 @@ public class Restaurant {
     }
 
     public int getId() {
-        return id;
+        return restaurantid;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.restaurantid = id;
     }
 
     public String getName() {

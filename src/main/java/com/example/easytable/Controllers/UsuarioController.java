@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/Usuario")
+@RequestMapping("/usuario")
 public class UsuarioController {
     @Autowired
     private IUsuarioService US;
@@ -47,10 +47,6 @@ public class UsuarioController {
                     .body("El cuerpo de la solicitud está vacío.");
         }
 
-        if (dto.getIdUsuario() <= 0) {
-            return ResponseEntity.badRequest()
-                    .body("El ID del usuario es inválido.");
-        }
 
         Usuario existe = US.listId(dto.getIdUsuario());
 
@@ -62,7 +58,8 @@ public class UsuarioController {
 
         for (RoleDTO role : dto.getRoles()) {
 
-            String nombreRol = role.getRol();
+            String nombreRol = role.getRol().toUpperCase();
+            role.setRol(nombreRol);
 
             if (!nombreRol.equalsIgnoreCase("ADMIN") &&
                     !nombreRol.equalsIgnoreCase("OWNER") &&

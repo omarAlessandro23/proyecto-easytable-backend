@@ -31,7 +31,7 @@ public class ScheduleServiceImplement implements IScheduleService {
 
     @Override
     public Schedule listId(int id){
-        return sR.findById(id).orElse(new Schedule());
+        return sR.findById(id).orElse(null);
     }
 
 

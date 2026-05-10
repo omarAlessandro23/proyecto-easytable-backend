@@ -32,7 +32,7 @@ public class RestaurantServiceImplement implements IRestaurantService {
 
     @Override
     public Restaurant listId(int id) {
-        return Rr.findById(id).get();
+        return Rr.findById(id).orElse(null);
     }
 
 

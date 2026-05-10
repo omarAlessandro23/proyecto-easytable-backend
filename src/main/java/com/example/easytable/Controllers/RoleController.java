@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 
 public class RoleController {
     @RestController
-    @RequestMapping("/Rol")
-    public class RolController {
+    @RequestMapping("/rol")
+    public static class RolController {
         @Autowired
         private IRolService RS;
 
-        @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+        @PreAuthorize("hasRole('ADMIN') or hasRole('USER')or hasRole('OWNER')")
         @PostMapping("/register")
         public void insert(@RequestBody RolDTO dto){
             ModelMapper m = new ModelMapper();
@@ -28,7 +28,7 @@ public class RoleController {
             RS.insert(r);
         }
 
-        @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+        @PreAuthorize("hasRole('ADMIN') or hasRole('USER')or hasRole('OWNER')")
         @PutMapping("/update")
         public ResponseEntity<String> modificar(@RequestBody RolDTO dto) {
             ModelMapper m = new ModelMapper();
@@ -44,7 +44,7 @@ public class RoleController {
             return ResponseEntity.ok("Rol con ID " + r.getId() + " modificado correctamente.");
         }
 
-        @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+        @PreAuthorize("hasRole('ADMIN') or hasRole('USER')or hasRole('OWNER')")
         @DeleteMapping("/delete/{id}")
         public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
             Role r = RS.listId(id);
@@ -56,7 +56,7 @@ public class RoleController {
             return ResponseEntity.ok("Rol con ID " + id + " eliminado correctamente.");
         }
 
-        @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+        @PreAuthorize("hasRole('ADMIN') or hasRole('USER')or hasRole('OWNER')")
         @GetMapping("/listar")
         public List<RolDTO> list() {
             return RS.list().stream().map(x -> {

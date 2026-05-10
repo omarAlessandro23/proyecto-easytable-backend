@@ -33,8 +33,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI().toLowerCase();
 
-        if (path.contains("/login") ||
-                path.contains("/usuario") ||
+        if (path.equals("/login") ||
+                path.startsWith("/usuario") ||
                 path.contains("/v3/api-docs") ||
                 path.contains("/swagger-ui")) {
 
@@ -79,4 +79,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         chain.doFilter(request, response);
     }
+
 }

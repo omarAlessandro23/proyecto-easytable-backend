@@ -1,34 +1,13 @@
-package com.example.easytable.Entities;
+package com.example.easytable.Dtos;
 
-import jakarta.persistence.*;
+import com.example.easytable.Entities.Restaurant;
+import com.example.easytable.Entities.Usuario;
 
-@Entity
-@Table(name = "Favorite")
-public class Favorite {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "favorite_id")
+public class FavoriteListDTO {
     private int favoriteid;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
-    @Column(name = "comment")
     private String comentario;
-
-    public Favorite() {
-    }
-
-    public Favorite(int favoriteid, Usuario usuario, Restaurant restaurant, String comentario) {
-        this.favoriteid = favoriteid;
-        this.usuario = usuario;
-        this.restaurant = restaurant;
-        this.comentario = comentario;
-    }
 
     public int getFavoriteid() {
         return favoriteid;

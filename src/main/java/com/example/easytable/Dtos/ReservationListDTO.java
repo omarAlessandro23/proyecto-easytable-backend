@@ -1,25 +1,30 @@
 package com.example.easytable.Dtos;
 
+import com.example.easytable.Entities.Restaurant;
+import com.example.easytable.Entities.RestaurantTable;
+import com.example.easytable.Entities.Schedule;
+import com.example.easytable.Entities.Usuario;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public class ReservationDTO {
-
+public class ReservationListDTO {
     private int reservationId;
     private int idUsuario;
-    private int restaurantid;
-    private int scheduleId;
-    private int tableId;
+    private Restaurant restaurant;
+    private RestaurantTable restaurantTable;
     private LocalDate reservationDate;
     private String status;
     private int numberPeople;
+    private Schedule schedule;
 
-    public int getScheduleId() {
-        return scheduleId;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
-    public void setScheduleId(int scheduleId) {
-        this.scheduleId = scheduleId;
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
     public int getReservationId() {
@@ -34,27 +39,25 @@ public class ReservationDTO {
         return idUsuario;
     }
 
-    public int getTableId() {
-        return tableId;
-    }
-
-    public void setTableId(int tableId) {
-        this.tableId = tableId;
-    }
-
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public int getRestaurantid() {
-        return restaurantid;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantid(int restaurantid) {
-        this.restaurantid = restaurantid;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
+    public RestaurantTable getRestaurantTable() {
+        return restaurantTable;
+    }
 
+    public void setRestaurantTable(RestaurantTable restaurantTable) {
+        this.restaurantTable = restaurantTable;
+    }
 
     public LocalDate getReservationDate() {
         return reservationDate;

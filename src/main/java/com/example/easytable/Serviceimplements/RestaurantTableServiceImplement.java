@@ -34,7 +34,7 @@ public class RestaurantTableServiceImplement implements IRestaurantTableService 
 
     @Override
     public RestaurantTable listId(int id) {
-        return rtR.findById(id).orElse(new RestaurantTable());
+        return rtR.findById(id).orElse(null);
     }
 
 }

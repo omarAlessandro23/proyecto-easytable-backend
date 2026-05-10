@@ -22,36 +22,29 @@ public class FavoriteServiceImplement implements IFavoriteService {
     public void insert(Favorite favorite) { FR.save(favorite); }
 
     @Override
-    public void delete(int idUsuario, int idRestaurant) {
-        FavoriteId id = new FavoriteId(idUsuario, idRestaurant);
-        FR.deleteById(id);
+    public void delete(int id) { FR.deleteById(id);
     }
 
     @Override
-    public void update(Favorite favorite) { FR.save(favorite); }
+    public void update(Favorite favorite) {
+
+    }
 
     @Override
-    public Favorite listId(int idUsuario, int idRestaurant) {
-        FavoriteId id = new FavoriteId(idUsuario, idRestaurant);
-        return FR.findById(id).orElse(new Favorite()); }
+    public List<Object[]> countFavoritesByRestaurant() {
+        return FR.findTopRestaurantsWithMostFavorites();
+    }
+
+    @Override
+    public Favorite listId(int id) {
+        return FR.findById(id).orElse(null);
+    }
+
 
     @Override
     public List<Favorite> listByUser(int idUsuario) {
-        return FR.findByUsuario(idUsuario);
+        return FR.findAllByUsuarioId(idUsuario);
     }
 
-    @Override
-    public boolean esFavorito(int userId, int resId) {
-        return FR.isFavoriteNative(userId, resId);
-    }
 
-    @Override
-    public List<Restaurant> listarFavoritosPorUsuario(int userId) {
-        return FR.findFavoriteRestaurantsByUserNative(userId);
-    }
-
-    @Override
-    public List<Restaurant> obtenerSugerencias(int userId) {
-        return FR.findSuggestedRestaurantsNative(userId);
-    }
 }

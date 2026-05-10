@@ -1,11 +1,16 @@
 package com.example.easytable.Controllers;
 
 
+import com.example.easytable.Dtos.RestaurantDTO;
+import com.example.easytable.Dtos.RestaurantTableDTO;
 import com.example.easytable.Entities.Restaurant;
 import com.example.easytable.Entities.RestaurantTable;
 import com.example.easytable.Serviceinterfaces.IRestaurantService;
 import com.example.easytable.Serviceinterfaces.IRestaurantTableService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,15 +33,16 @@ public class RestaurantTableController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
 
     @PostMapping("/insertar")
-    public void insertar(@RequestBody RestaurantTable restaurantTable){
-        if(restaurantTable.getCapacity()<=0){
-            throw new RuntimeException("la capacidad debe ser mayor a 0");
-        }
+    public ResponseEntity<String> insertar(@RequestBody RestaurantTableDTO dto) {
 
-        Restaurant restaurant= rS.listId(restaurantTable.getCapacity());
-        restaurantTable.setRestaurant(restaurant);
+        ModelMapper m = new ModelMapper();
 
-        rtS.insert(restaurantTable);
+        RestaurantTable rt = m.map(dto, RestaurantTable.class);
+
+        rtS.insert(rt);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Mesa registrada correctamente.");
     }
     @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
 

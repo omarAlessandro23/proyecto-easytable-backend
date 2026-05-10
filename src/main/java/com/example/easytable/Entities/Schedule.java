@@ -1,5 +1,7 @@
 package com.example.easytable.Entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
@@ -10,21 +12,26 @@ public class Schedule {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int scheduleId;
-
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    private Restaurant restaurant;
-
     @Column(name = "day_of_week", nullable = false)
     private int dayOfWeek;
 
+    @JsonFormat(pattern = "HH:mm")
+    @Schema(type = "string", example = "09:00", description = "Hora de apertura en formato HH:mm")
     @Column(name = "open_time", nullable = false)
     private LocalTime openTime;
-
+    @JsonFormat(pattern = "HH:mm")
+    @Schema(type = "string", example = "22:00", description = "Hora de cierre en formato HH:mm")
     @Column(name = "close_time", nullable = false)
     private LocalTime closeTime;
 
     public Schedule() {
+    }
+
+    public Schedule(int scheduleId, int dayOfWeek, LocalTime openTime, LocalTime closeTime) {
+        this.scheduleId = scheduleId;
+        this.dayOfWeek = dayOfWeek;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
     }
 
     public int getScheduleId() {
@@ -33,14 +40,6 @@ public class Schedule {
 
     public void setScheduleId(int scheduleId) {
         this.scheduleId = scheduleId;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
     }
 
     public int getDayOfWeek() {
