@@ -14,39 +14,45 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservation_id")
     private int reservationId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Usuario usuario;
 
-    @Column(name ="user_id", nullable=false)
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 
-    @Column(name ="restaurant_id", nullable=false)
-    private int restaurantId;
+    @ManyToOne
+    @JoinColumn(name = "table_id")
+    private RestaurantTable restaurantTable;
 
-    @Column(name ="table_id")
-    private int tableId;
+    @ManyToOne
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule ;
 
     @JsonProperty("reservation_date") // Esto permite recibir "reservation_date" en el JSON
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(name ="reservation_date")
+    @Column(name = "reservation_date")
     private LocalDate reservationDate;
 
     @Column(nullable = false, length = 20)
     private String status;
 
-    @Column(name ="number_people", nullable=false)
+    @Column(name = "number_people", nullable = false)
     private int numberPeople;
 
-    public Reservation(int reservationId, int userId, int restaurantId, int tableId, LocalDate reservationDate, String status, int numberPeople) {
+    public Reservation() {
+    }
+
+    public Reservation(int reservationId, Usuario usuario, Restaurant restaurant, RestaurantTable restaurantTable, Schedule schedule, LocalDate reservationDate, String status, int numberPeople) {
         this.reservationId = reservationId;
-        this.userId = userId;
-        this.restaurantId = restaurantId;
-        this.tableId = tableId;
+        this.usuario = usuario;
+        this.restaurant = restaurant;
+        this.restaurantTable = restaurantTable;
+        this.schedule = schedule;
         this.reservationDate = reservationDate;
         this.status = status;
         this.numberPeople = numberPeople;
-    }
-
-    public Reservation() {
-
     }
 
     public int getReservationId() {
@@ -57,28 +63,36 @@ public class Reservation {
         this.reservationId = reservationId;
     }
 
-    public int getUserId() {
-        return userId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public int getRestaurantId() {
-        return restaurantId;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
-    public void setRestaurantId(int restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
-    public int getTableId() {
-        return tableId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setTableId(int tableId) {
-        this.tableId = tableId;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public RestaurantTable getRestaurantTable() {
+        return restaurantTable;
+    }
+
+    public void setRestaurantTable(RestaurantTable restaurantTable) {
+        this.restaurantTable = restaurantTable;
     }
 
     public LocalDate getReservationDate() {

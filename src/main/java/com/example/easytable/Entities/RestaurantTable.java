@@ -10,17 +10,15 @@ public class RestaurantTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tableId;
 
-    @ManyToOne
-    @JoinColumn(name="restaurant_id", nullable=false)
-    private Restaurant restaurant;
-
-    @Column(nullable = false)
-    private int capacity;
-
     @Column(name = "location_zone", length = 50)
     private String locationZone;
 
     public RestaurantTable() {
+    }
+
+    public RestaurantTable(int tableId, String locationZone) {
+        this.tableId = tableId;
+        this.locationZone = locationZone;
     }
 
     public int getTableId() {
@@ -29,22 +27,6 @@ public class RestaurantTable {
 
     public void setTableId(int tableId) {
         this.tableId = tableId;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
     }
 
     public String getLocationZone() {

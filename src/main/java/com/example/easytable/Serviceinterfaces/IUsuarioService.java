@@ -10,4 +10,5 @@ public interface IUsuarioService {
     public void delete(int id);
     public void update(Usuario usuario);
     public Usuario listId(int id);
+    public boolean existsById(int id);
 }

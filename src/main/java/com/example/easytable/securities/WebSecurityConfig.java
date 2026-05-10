@@ -33,6 +33,9 @@ public class WebSecurityConfig {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
+    private JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    @Autowired
     private UserDetailsService jwtUserDetailsService;
 
     @Autowired
@@ -65,14 +68,19 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(
                                 "/login",
+                                "/usuario/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/usuario/**" // Asegúrate que la U sea mayúscula
+                                "/swagger-ui.html"
                         ).permitAll()
-                        .anyRequest().permitAll()
+
+                        // TODO lo demás requiere autenticación
+                        .anyRequest().authenticated()
                 )
+
                 .formLogin(AbstractHttpConfigurer::disable)
-                .exceptionHandling(e -> e.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .exceptionHandling(e -> e.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler))
 
                 // 👇 AQUÍ COLOCAS LA OPCIÓN 3 (Reemplaza el Customizer.withDefaults())
                 .sessionManagement(session -> session

@@ -4,24 +4,38 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Favorite")
-@IdClass(FavoriteId.class)
 public class Favorite {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "favorite_id")
+    private int favoriteid;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Usuario usuario;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+    @Column(name = "comment")
+    private String comentario;
 
     public Favorite() {
     }
 
-    public Favorite(Usuario usuario, Restaurant restaurant) {
+    public Favorite(int favoriteid, Usuario usuario, Restaurant restaurant, String comentario) {
+        this.favoriteid = favoriteid;
         this.usuario = usuario;
         this.restaurant = restaurant;
+        this.comentario = comentario;
+    }
+
+    public int getFavoriteid() {
+        return favoriteid;
+    }
+
+    public void setFavoriteid(int favoriteid) {
+        this.favoriteid = favoriteid;
     }
 
     public Usuario getUsuario() {
@@ -38,5 +52,13 @@ public class Favorite {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 }

@@ -9,8 +9,9 @@ import java.util.List;
 
 @Repository
 public interface ICategoryRepository extends JpaRepository<Category, Integer> {
-    List<Category> findByNameCategory(String name);
-    List<Category> findByNameCategoryContainingIgnoreCase(String name);
+    List<Category> findByNombreCategoria(String nombreCategoria);
+
+    List<Category> findByNombreCategoriaIgnoreCase(String name);
     @Query(value = "SELECT c.id_category, c.name_category, COUNT(f.id_restaurant) as total_favs " +
             "FROM category c " +
             "JOIN restaurant r ON c.id_category = r.id_category " +

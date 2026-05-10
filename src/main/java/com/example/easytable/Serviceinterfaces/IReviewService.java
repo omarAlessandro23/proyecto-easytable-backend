@@ -11,7 +11,6 @@ public interface IReviewService {
     public void update(Review review);
     public Review listId(int id);
 
-    public List<Review> findByUserId(int userId);
     public List<Review> findByRestaurantId(int restaurantId);
     public List<Object[]> promedioRatingPorRestaurante();
 }

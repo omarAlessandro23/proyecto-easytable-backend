@@ -48,13 +48,10 @@ public class ReviewServiceImplement implements IReviewService {
         return rR.findById(id).orElse(null);
 
     }
-    @Override
-    public  List<Review> findByUserId(int userId){
-        return rR.findByUserId(userId);
-    }
+
     @Override
     public List<Review> findByRestaurantId(int restaurantId){
-        return rR.findByReviewId(restaurantId);
+        return rR.findByRestaurantId(restaurantId);
     }
 
     @Override

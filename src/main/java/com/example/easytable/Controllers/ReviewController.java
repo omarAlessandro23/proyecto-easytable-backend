@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ReviewController {
 
     @Autowired
     private IReviewService rS;
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/listar")
     public List<ReviewDTO> list() {
         return rS.list().stream().map(x -> {
@@ -28,6 +29,8 @@ public class ReviewController {
             return m.map(x, ReviewDTO.class);
         }).collect(Collectors.toList());
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
+
     @PostMapping("/registrar")
     public ResponseEntity<String> insert(@RequestBody ReviewDTO dto){
         ModelMapper m = new ModelMapper();
@@ -37,6 +40,8 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Review registrada correctamente");
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
+
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody ReviewDTO dto){
         Review ex = rS.listId(id);
@@ -50,6 +55,7 @@ public class ReviewController {
         rS.update(r);
         return ResponseEntity.ok("Review actualizada correctamente");
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Integer id){
         Review review = rS.listId(id);
@@ -61,13 +67,16 @@ public class ReviewController {
         rS.delete(id);
         return ResponseEntity.ok("Review eliminada correctamente");
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/buscar-usuario/{userId}")
     public List<ReviewDTO> findByUserId(@PathVariable int userId){
-        return rS.findByUserId(userId).stream().map(x -> {
+        return rS.findByRestaurantId(userId).stream().map(x -> {
             ModelMapper m = new ModelMapper();
             return m.map(x, ReviewDTO.class);
         }).collect(Collectors.toList());
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
+
     @GetMapping("/buscar-restaurante/{restaurantId}")
     public List<ReviewDTO> findByRestaurantId(@PathVariable int restaurantId) {
         return rS.findByRestaurantId(restaurantId).stream().map(x -> {
@@ -75,6 +84,7 @@ public class ReviewController {
             return m.map(x, ReviewDTO.class);
         }).collect(Collectors.toList());
     }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/rating-promedio")
     public List<ReviewQuery1DTO> getPromedioRating() {
 

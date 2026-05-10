@@ -10,6 +10,13 @@ public class NotificacionQuery1DTO {
     private LocalDate fecha;
     private int idUsuario;
 
+    public NotificacionQuery1DTO(String mensaje, Boolean leido, LocalDate fecha, int idUsuario) {
+        this.mensaje = mensaje;
+        this.leido = leido;
+        this.fecha = fecha;
+        this.idUsuario = idUsuario;
+    }
+
     public String getMensaje() {
         return mensaje;
     }

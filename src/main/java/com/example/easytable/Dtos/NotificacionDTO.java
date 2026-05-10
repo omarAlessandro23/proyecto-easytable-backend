@@ -9,7 +9,15 @@ public class NotificacionDTO {
     private String mensaje;
     private Boolean leido;
     private LocalDate fecha;
-    private Usuario usuario;
+    private int idUsuario;
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public int getIdNotificacion() {
         return idNotificacion;
@@ -43,11 +51,5 @@ public class NotificacionDTO {
         this.fecha = fecha;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 }

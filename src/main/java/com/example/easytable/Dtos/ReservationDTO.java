@@ -6,12 +6,21 @@ import java.time.LocalDateTime;
 public class ReservationDTO {
 
     private int reservationId;
-    private int userId;
-    private int restaurantId;
+    private int idUsuario;
+    private int restaurantid;
+    private int scheduleId;
     private int tableId;
     private LocalDate reservationDate;
     private String status;
     private int numberPeople;
+
+    public int getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(int scheduleId) {
+        this.scheduleId = scheduleId;
+    }
 
     public int getReservationId() {
         return reservationId;
@@ -21,20 +30,8 @@ public class ReservationDTO {
         this.reservationId = reservationId;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(int restaurantId) {
-        this.restaurantId = restaurantId;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
     public int getTableId() {
@@ -44,6 +41,20 @@ public class ReservationDTO {
     public void setTableId(int tableId) {
         this.tableId = tableId;
     }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public int getRestaurantid() {
+        return restaurantid;
+    }
+
+    public void setRestaurantid(int restaurantid) {
+        this.restaurantid = restaurantid;
+    }
+
+
 
     public LocalDate getReservationDate() {
         return reservationDate;
