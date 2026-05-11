@@ -1,7 +1,10 @@
 package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.RestaurantDTO;
+import com.example.easytable.Entities.Category;
 import com.example.easytable.Entities.Restaurant;
+import com.example.easytable.Entities.Usuario;
+import com.example.easytable.Serviceinterfaces.ICategoryService;
 import com.example.easytable.Serviceinterfaces.IRestaurantService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ public class RestaurantController {
 
     @Autowired
     private IRestaurantService rS;
+    @Autowired
+    private  ICategoryService cS;
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')or hasRole('OWNER')")
     @GetMapping("/listar")
     public List<RestaurantDTO> listar() {
@@ -27,7 +32,7 @@ public class RestaurantController {
             return m.map(x, RestaurantDTO.class);
         }).collect(Collectors.toList());
     }
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody RestaurantDTO dto) {
 
@@ -59,6 +64,30 @@ public class RestaurantController {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error: El rating debe estar entre 0 y 5.");
+        }
+        // VALIDAR LATITUD
+        if (dto.getLatitude() == null ||
+                dto.getLatitude() < -90 ||
+                dto.getLatitude() > 90) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error: La latitud debe estar entre -90 y 90.");
+        }
+
+// VALIDAR LONGITUD
+        if (dto.getLongitude() == null ||
+                dto.getLongitude() < -180 ||
+                dto.getLongitude() > 180) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error: La longitud debe estar entre -180 y 180.");
+        }
+
+        Category category = cS.listId(dto.getIdCategory());
+
+        if (category == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Error: categoria no encontrada.");
         }
 
         ModelMapper m = new ModelMapper();
@@ -102,7 +131,7 @@ public class RestaurantController {
         rS.delete(id);
         return ResponseEntity.ok("Restaurante eliminado correctamente.");
     }
-    //@PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     @GetMapping("/mejoresCalificados")
     public ResponseEntity<?> buscarTop(@RequestParam Double rating) {
         // Validación de rango lógico
@@ -119,7 +148,7 @@ public class RestaurantController {
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
     // 3. Búsqueda por Cercanía (Geolocalización)
     @GetMapping("/cercanos")
     public ResponseEntity<?> buscarCercanos(@RequestParam Double lat, @RequestParam Double lng, @RequestParam Double dist) {

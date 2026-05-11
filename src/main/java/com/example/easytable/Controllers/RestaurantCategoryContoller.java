@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class RestaurantCategoryContoller {
     @Autowired
     private IRestaurantCategoryService rS;
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
 
     @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody RestaurantCategoryDTO dto) {
