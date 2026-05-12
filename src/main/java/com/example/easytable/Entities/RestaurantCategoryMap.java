@@ -3,7 +3,7 @@ package com.example.easytable.Entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="RestaurantCategoryMap")
+@Table(name="restaurant_category_map")
 public class RestaurantCategoryMap {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
