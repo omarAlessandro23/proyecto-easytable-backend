@@ -3,7 +3,7 @@ package com.example.easytable.Entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Favorite")
+@Table(name = "favorite")
 public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
