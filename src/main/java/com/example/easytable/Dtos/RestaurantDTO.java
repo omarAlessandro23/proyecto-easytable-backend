@@ -11,6 +11,15 @@ public class RestaurantDTO {
     private String googleMapsUrl;
     private Double latitude;
     private Double longitude;
+    private int idCategory;
+
+    public int getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(int idCategory) {
+        this.idCategory = idCategory;
+    }
 
     public int getId() {
         return id;

@@ -22,9 +22,12 @@ public class Restaurant {
     private Double latitude;
     @Column(name="longitude",nullable=false)
     private Double longitude;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    public Restaurant(int id, String name, String address, Double ratingAvg, String webUrl, String googleMapsUrl, Double latitude, Double longitude) {
-        this.restaurantid = id;
+    public Restaurant(int restaurantid, String name, String address, Double ratingAvg, String webUrl, String googleMapsUrl, Double latitude, Double longitude, Category category) {
+        this.restaurantid = restaurantid;
         this.name = name;
         this.address = address;
         this.ratingAvg = ratingAvg;
@@ -32,9 +35,18 @@ public class Restaurant {
         this.googleMapsUrl = googleMapsUrl;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.category = category;
     }
 
     public Restaurant() {
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public int getId() {

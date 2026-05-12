@@ -89,6 +89,7 @@ public class ReservationController {
         r.setUsuario(usuario);
         r.setRestaurant(restaurant);
         r.setRestaurantTable(table);
+        r.setSchedule(schedule);
 
         r.setReservationDate(dto.getReservationDate());
         r.setStatus(dto.getStatus());
