@@ -62,8 +62,9 @@ public class ReservationServiceImplement implements IReservationService {
 
 
     @Override
-    public Collection<Object> findByStatus(String status) {
-        return Collections.singleton(rR.findByStatus(status));
+ public List<Reservation> findByStatus(String status) {
+        return rR.findByStatus(status);
+
     }
 
 

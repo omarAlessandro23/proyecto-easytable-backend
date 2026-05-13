@@ -153,6 +153,8 @@ public class ReservationController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
 
     @GetMapping("/buscar-estado/{status}")
+
+
     public List<ReservationDTO> buscarPorEstado(@PathVariable String status) {
         return rS.findByStatus(status).stream().map(x -> {
             ModelMapper m = new ModelMapper();

@@ -45,4 +45,5 @@ public class RestaurantServiceImplement implements IRestaurantService {
     public List<Restaurant> findNearby(Double lat, Double lng, Double distance) {
         return Rr.findNearbyRestaurants(lat, lng, distance);
     }
+
 }

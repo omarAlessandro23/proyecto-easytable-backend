@@ -1,5 +1,7 @@
 package com.example.easytable.Controllers;
 
+import com.example.easytable.Dtos.CategoriaQUERYDTO;
+
 import com.example.easytable.Dtos.CategoryDTO;
 import com.example.easytable.Dtos.RestaurantDTO;
 import com.example.easytable.Entities.Category;
@@ -83,4 +85,32 @@ public class CategoryController {
         cS.delete(id);
         return ResponseEntity.ok("Categoria eliminada correctamente.");
     }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
+    @GetMapping("/categorias-sin-restaurantes")
+    public ResponseEntity<?> categoriasSinRestaurantes() {
+
+        List<Object[]> resultados = cS.categoriasSinRestaurantes();
+
+        // Validación
+        if (resultados.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("No existen categorías sin restaurantes asociados");
+        }
+
+        // Conversión a DTO
+        List<CategoriaQUERYDTO> listaDTO = resultados.stream().map(row -> {
+
+            CategoriaQUERYDTO dto = new CategoriaQUERYDTO();
+
+            dto.setNombre((String) row[0]);
+
+            return dto;
+
+        }).toList();
+
+        return ResponseEntity.ok(listaDTO);
+    }
+
 }

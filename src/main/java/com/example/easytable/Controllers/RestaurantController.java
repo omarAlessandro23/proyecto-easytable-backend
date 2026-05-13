@@ -1,6 +1,7 @@
 package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.RestaurantDTO;
+
 import com.example.easytable.Entities.Category;
 import com.example.easytable.Entities.Restaurant;
 import com.example.easytable.Entities.Usuario;

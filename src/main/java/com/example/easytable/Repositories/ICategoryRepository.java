@@ -25,4 +25,12 @@ public interface ICategoryRepository extends JpaRepository<Category, Integer> {
             "    WHERE r.id_category = c.id_category" +
             ")", nativeQuery = true)
     List<Category> findEmptyCategoriesNative();
+
+    @Query("SELECT c.nombreCategoria\n" +
+            "FROM Category c\n" +
+            "LEFT JOIN RestaurantCategoryMap rcm\n" +
+            "       ON c.idCategory = rcm.category.idCategory\n" +
+            "WHERE rcm.restaurant IS NULL")
+    List<Object[]> categoriasSinRestaurantes();
+
 }

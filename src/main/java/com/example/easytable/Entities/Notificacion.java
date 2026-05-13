@@ -5,23 +5,23 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="Notificacion")
+@Table(name="notificacion")
 public class Notificacion {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idNotificacion;
 
-    @Column(name="mensaje",length = 100,nullable = false)
+    @Column(name = "mensaje", length = 100, nullable = false)
     private String mensaje;
 
-    @Column(name="leido",nullable = false)
+    @Column(name = "leido", nullable = false)
     private Boolean leido;
 
-    @Column(name="fecha",nullable = false)
+    @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
     @ManyToOne
-    @JoinColumn(name="idUsuario")
+    @JoinColumn(name = "idUsuario")
     private Usuario usuario;
 
     public Notificacion() {

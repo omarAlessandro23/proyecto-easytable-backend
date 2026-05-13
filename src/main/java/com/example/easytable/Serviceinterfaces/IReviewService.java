@@ -13,4 +13,6 @@ public interface IReviewService {
 
     public List<Review> findByRestaurantId(int restaurantId);
     public List<Object[]> promedioRatingPorRestaurante();
+    List<Object[]> obtenerReviewsPorRestaurante( int restaurantId);
+
 }

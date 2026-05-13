@@ -46,4 +46,10 @@ public class CategoryServiceImplement implements ICategoryService {
     public List<Category> listarCategoriasHuerfanas() {
         return CR.findEmptyCategoriesNative();
     }
+
+    @Override
+    public List<Object[]> categoriasSinRestaurantes() {
+        return CR.categoriasSinRestaurantes();
+    }
+
 }

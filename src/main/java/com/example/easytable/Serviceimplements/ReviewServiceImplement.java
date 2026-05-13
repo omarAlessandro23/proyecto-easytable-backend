@@ -59,4 +59,9 @@ public class ReviewServiceImplement implements IReviewService {
         return rR.promedioRatingPorRestaurante();
     }
 
+    @Override
+    public List<Object[]> obtenerReviewsPorRestaurante(int restaurantId) {
+        return rR.obtenerReviewsPorRestaurante(restaurantId);
+    }
+
 }

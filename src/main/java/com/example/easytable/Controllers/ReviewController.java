@@ -2,6 +2,9 @@ package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.ReviewDTO;
 import com.example.easytable.Dtos.ReviewQuery1DTO;
+
+import com.example.easytable.Dtos.ReviewQuery2DTO;
+
 import com.example.easytable.Entities.Review;
 import com.example.easytable.Serviceinterfaces.IReviewService;
 import org.modelmapper.ModelMapper;
@@ -97,5 +100,36 @@ public class ReviewController {
             return dto;
 
         }).collect(Collectors.toList());
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
+    @GetMapping("/reviews-restaurante/{restaurantId}")
+    public ResponseEntity<?> obtenerReviewsPorRestaurante(
+            @PathVariable int restaurantId) {
+
+        List<Object[]> resultados =
+                rS.obtenerReviewsPorRestaurante(restaurantId);
+
+        // Validación: no existen reviews
+        if (resultados.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Este restaurante no tiene reviews registradas");
+        }
+
+        // Conversión a DTO
+        List<ReviewQuery2DTO> listaDTO = resultados.stream().map(row -> {
+
+            ReviewQuery2DTO dto = new ReviewQuery2DTO();
+
+            dto.setNombre((String) row[0]);
+            dto.setRating((Integer) row[1]);
+            dto.setDescripcion((String) row[2]);
+
+            return dto;
+
+        }).toList();
+
+        return ResponseEntity.ok(listaDTO);
     }
 }

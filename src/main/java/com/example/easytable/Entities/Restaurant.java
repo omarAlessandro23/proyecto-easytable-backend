@@ -2,13 +2,13 @@ package com.example.easytable.Entities;
 
 import jakarta.persistence.*;
 @Entity
-@Table(name = "Restaurant")
+@Table(name = "restaurant")
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restaurant_id")
     private int restaurantid;
-    @Column(nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
     @Column(columnDefinition = "TEXT")
     private String address;
@@ -18,9 +18,9 @@ public class Restaurant {
     private String webUrl;
     @Column(name = "google_maps_url", length = 300)
     private String googleMapsUrl;
-    @Column(name="latitude",nullable=false)
+    @Column(name = "latitude", nullable = false)
     private Double latitude;
-    @Column(name="longitude",nullable=false)
+    @Column(name = "longitude", nullable = false)
     private Double longitude;
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)

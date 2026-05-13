@@ -15,6 +15,7 @@ public interface IReservationService {
     public List<Reservation> findByUserId(int userId);
     public List<Reservation> findByRestaurantId(int restaurantId);
 
-    Collection<Object> findByStatus(String status);
+    List<Reservation> findByStatus(String status);
+
 }
 
