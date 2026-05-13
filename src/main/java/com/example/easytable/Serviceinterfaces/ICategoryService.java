@@ -15,4 +15,5 @@ public interface ICategoryService {
     public List<Object[]> obtenerRankingPopularidad();
     public List<Category> listarCategoriasHuerfanas();
     List<Object[]> categoriasSinRestaurantes();
+
 }

@@ -1,6 +1,7 @@
 package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.CategoriaQUERYDTO;
+
 import com.example.easytable.Dtos.CategoryDTO;
 import com.example.easytable.Dtos.RestaurantDTO;
 import com.example.easytable.Entities.Category;
@@ -84,6 +85,7 @@ public class CategoryController {
         cS.delete(id);
         return ResponseEntity.ok("Categoria eliminada correctamente.");
     }
+
     @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @GetMapping("/categorias-sin-restaurantes")
     public ResponseEntity<?> categoriasSinRestaurantes() {
@@ -110,4 +112,5 @@ public class CategoryController {
 
         return ResponseEntity.ok(listaDTO);
     }
+
 }

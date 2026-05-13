@@ -2,7 +2,9 @@ package com.example.easytable.Controllers;
 
 import com.example.easytable.Dtos.ReviewDTO;
 import com.example.easytable.Dtos.ReviewQuery1DTO;
+
 import com.example.easytable.Dtos.ReviewQuery2DTO;
+
 import com.example.easytable.Entities.Review;
 import com.example.easytable.Serviceinterfaces.IReviewService;
 import org.modelmapper.ModelMapper;
@@ -99,6 +101,7 @@ public class ReviewController {
 
         }).collect(Collectors.toList());
     }
+
     @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @GetMapping("/reviews-restaurante/{restaurantId}")
     public ResponseEntity<?> obtenerReviewsPorRestaurante(

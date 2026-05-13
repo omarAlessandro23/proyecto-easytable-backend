@@ -51,4 +51,5 @@ public class CategoryServiceImplement implements ICategoryService {
     public List<Object[]> categoriasSinRestaurantes() {
         return CR.categoriasSinRestaurantes();
     }
+
 }

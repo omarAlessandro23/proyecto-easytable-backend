@@ -153,41 +153,14 @@ public class ReservationController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
 
     @GetMapping("/buscar-estado/{status}")
-    public ResponseEntity<?> buscarPorEstado(@PathVariable String status) {
 
-        List<Reservation> lista = rS.findByStatus(status);
 
-        if (lista.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No se encontraron reservas con el estado: " + status);
-        }
-
-        List<ReservationDTO> dtoLista = lista.stream().map(x -> {
-
-            ReservationDTO dto = new ReservationDTO();
-
-            dto.setReservationId(x.getReservationId());
-
-            dto.setIdUsuario(x.getUsuario().getIdUsuario());
-
-            dto.setRestaurantid(x.getRestaurant().getId());
-
-            dto.setScheduleId(x.getSchedule().getScheduleId());
-
-            dto.setTableId(x.getRestaurantTable().getTableId());
-
-            dto.setReservationDate(x.getReservationDate());
-
-            dto.setStatus(x.getStatus());
-
-            dto.setNumberPeople(x.getNumberPeople());
-
-            return dto;
-
+    public List<ReservationDTO> buscarPorEstado(@PathVariable String status) {
+        return rS.findByStatus(status).stream().map(x -> {
+            ModelMapper m = new ModelMapper();
+            return m.map(x, ReservationDTO.class);
         }).toList();
-
-        return ResponseEntity.ok(dtoLista);
     }
+
 }
 

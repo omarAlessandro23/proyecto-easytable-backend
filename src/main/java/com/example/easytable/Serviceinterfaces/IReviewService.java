@@ -1,7 +1,6 @@
 package com.example.easytable.Serviceinterfaces;
 
 import com.example.easytable.Entities.Review;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -15,4 +14,5 @@ public interface IReviewService {
     public List<Review> findByRestaurantId(int restaurantId);
     public List<Object[]> promedioRatingPorRestaurante();
     List<Object[]> obtenerReviewsPorRestaurante( int restaurantId);
+
 }

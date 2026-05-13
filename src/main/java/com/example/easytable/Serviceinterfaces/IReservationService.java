@@ -16,5 +16,6 @@ public interface IReservationService {
     public List<Reservation> findByRestaurantId(int restaurantId);
 
     List<Reservation> findByStatus(String status);
+
 }
 

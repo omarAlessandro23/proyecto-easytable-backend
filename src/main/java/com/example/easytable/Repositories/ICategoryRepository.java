@@ -32,4 +32,5 @@ public interface ICategoryRepository extends JpaRepository<Category, Integer> {
             "       ON c.idCategory = rcm.category.idCategory\n" +
             "WHERE rcm.restaurant IS NULL")
     List<Object[]> categoriasSinRestaurantes();
+
 }

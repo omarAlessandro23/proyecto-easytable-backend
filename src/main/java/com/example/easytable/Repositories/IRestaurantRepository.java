@@ -24,5 +24,4 @@ public interface IRestaurantRepository extends JpaRepository<Restaurant, Integer
                                            @Param("lng") Double lng,
                                            @Param("distance") Double distance);
 
-
 }
