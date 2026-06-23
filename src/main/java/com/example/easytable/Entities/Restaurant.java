@@ -7,7 +7,7 @@ public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restaurant_id")
-    private int restaurantid;
+    private Integer restaurantid;
     @Column(name = "name", nullable = false, length = 100)
     private String name;
     @Column(columnDefinition = "TEXT")

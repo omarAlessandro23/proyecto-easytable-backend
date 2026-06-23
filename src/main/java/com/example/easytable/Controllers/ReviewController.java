@@ -48,9 +48,9 @@ public class ReviewController {
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody ReviewDTO dto){
         Review ex = rS.listId(id);
-        if(ex != null){
+        if(ex == null){ // <--- Cambiado de != a ==
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe una review con el ID");
+                    .body("No existe una review con el ID: " + id);
         }
         ModelMapper m = new ModelMapper();
         Review r = m.map(dto, Review.class);
@@ -62,10 +62,9 @@ public class ReviewController {
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Integer id){
         Review review = rS.listId(id);
-        if(review != null){
+        if(review == null){ // <--- Cambiado de != a ==
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe una review con el ID" + id);
-
+                    .body("No existe una review con el ID: " + id);
         }
         rS.delete(id);
         return ResponseEntity.ok("Review eliminada correctamente");
