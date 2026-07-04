@@ -42,6 +42,18 @@ public class ReservationController {
             return m.map(x, ReservationListDTO.class);
         }).collect(Collectors.toList());
     }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')or hasRole('OWNER')")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listId(@PathVariable Integer id) {
+        Reservation r = rS.listId(id);
+        if (r == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe una reserva con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        return ResponseEntity.ok(m.map(r, ReservationDTO.class));
+    }
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')or hasRole('OWNER')")
     @PostMapping("/registrar")
     public ResponseEntity<String> insert(@RequestBody ReservationDTO dto) {

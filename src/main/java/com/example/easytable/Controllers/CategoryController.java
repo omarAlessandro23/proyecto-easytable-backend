@@ -42,6 +42,18 @@ public class CategoryController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')or hasRole('USER')")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listId(@PathVariable Integer id) {
+        Category c = cS.listId(id);
+        if (c == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe una categoría con el ID: " + id);
+        }
+        ModelMapper m = new ModelMapper();
+        return ResponseEntity.ok(m.map(c, CategoryDTO.class));
+    }
     @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
     @PostMapping("/registrar")
     public ResponseEntity<String> insertar(@RequestBody CategoryDTO dto) {
@@ -58,7 +70,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Categoria registrada correctamente.");
     }
-    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO dto) {
         Category cat = cS.listId(id);
@@ -74,7 +86,7 @@ public class CategoryController {
 
         return ResponseEntity.ok("Categoria actualizada correctamente");
     }
-    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Integer id) {
         Category c = cS.listId(id);
@@ -86,7 +98,7 @@ public class CategoryController {
         return ResponseEntity.ok("Categoria eliminada correctamente.");
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     @GetMapping("/categorias-sin-restaurantes")
     public ResponseEntity<?> categoriasSinRestaurantes() {
 
