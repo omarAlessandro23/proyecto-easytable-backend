@@ -31,38 +31,25 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     FilterChain chain)
             throws ServletException, IOException {
 
-        String path = request.getRequestURI().toLowerCase();
-
-        if (path.equals("/login") ||
-                path.startsWith("/usuario") ||
-                path.contains("/v3/api-docs") ||
-                path.contains("/swagger-ui")) {
-
-            chain.doFilter(request, response);
-            return;
-        }
-
-        // ---------------------------
-        // LÓGICA NORMAL DE JWT
-        // ---------------------------
+        // 1. Extraer la cabecera de autorización
         final String requestTokenHeader = request.getHeader("Authorization");
 
         String username = null;
         String jwtToken = null;
 
+        // 2. Comprobar si el token viene en el formato correcto
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                System.out.println("No se puede encontrar el token JWT");
+                logger.warn("No se puede encontrar el token JWT");
             } catch (ExpiredJwtException e) {
-                System.out.println("Token JWT ha expirado");
+                logger.warn("Token JWT ha expirado");
             }
-        } else {
-            logger.warn("JWT Token no inicia con la palabra Bearer");
         }
 
+        // 3. Si el token es válido y no está autenticado en el contexto, lo autenticamos
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 
@@ -77,7 +64,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         }
 
+        // 4. Continuar el flujo hacia el siguiente filtro (vital para rutas permitAll)
         chain.doFilter(request, response);
     }
-
 }
